@@ -1,4 +1,4 @@
-const Bucket = 'antgeek-images';
+const Bucket = 'image-uploader-app-build';
 const AWS_URL_BASE = 's3.amazonaws.com';
 
 const mongoose = require('mongoose');

@@ -25,4 +25,10 @@ router.get('/', (req, res) => {
   .catch(err => res.status(400).send(err));
 });
 
+router.delete('/:id', (req, res) => {
+  Image.remove({ _id: req.params.id })
+  .then(res.send('image deleted'))
+  .catch(err => res.status(400).send(err));
+});
+
 module.exports = router;

@@ -17,9 +17,26 @@ export function upload(file) {
   };
 }
 
+export function getImages() {
+  return (dispatch) => {
+    axios.get('/api/images/')
+      .then(res => res.data)
+      .then(data2 => dispatch(getAllImages(data2)))
+      .catch(console.error);
+  };
+}
+
 export function uploadSuccess(image) {
   return {
     type: 'UPLOAD_SUCCESS',
     payload: image,
+  };
+}
+
+export function getAllImages(images) {
+  console.log('images in actions:', images);
+  return {
+    type: 'GOT_ALL_IMAGES',
+    payload: images,
   };
 }

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-let sampleReducer = (state = 0) => state;
+import images from './images';
 
 export default combineReducers({
-  zero: sampleReducer
+  images,
 });
