@@ -27,8 +27,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  upload(file) {
-    dispatch(upload(file));
+  upload(file, details) {
+    dispatch(upload(file, details));
   },
   getPics() {
     dispatch(getImages());

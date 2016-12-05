@@ -1,12 +1,14 @@
 import axios from 'axios';
 
-export function upload(file) {
+export function upload(file, details) {
   return (dispatch) => {
     console.log(file);
     const data = new FormData();
     data.append('myfile', file);
     console.log('data:', data);
-    axios.post('/api/images', data)
+    const { description, title, tags } = details;
+    console.log('data:', data);
+    axios.post(`/api/images/${description}/${title}/${tags}`, data)
       .then((res) => {
         const image = res.data;
         dispatch(uploadSuccess(image));

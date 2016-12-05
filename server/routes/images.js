@@ -7,10 +7,17 @@ const multer = require('multer');
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-router.post('/', upload.single('myfile'), (req, res) => {
+router.delete('/:id', (req, res) => {
+  Image.remove({ _id: req.params.id })
+  .then(res.send('image deleted'))
+  .catch(err => res.status(400).send(err));
+});
+
+router.post('/:description/:title/:tags', upload.single('myfile'), (req, res) => {
+  console.log('req.params:', req.params);
   console.log('req.file', req.file);
   // res.redirect('/');
-  Image.upload(req.file)
+  Image.upload(req.file, req.params)
     .then((imageDoc) => {
       res.send(imageDoc);
     })
@@ -22,12 +29,6 @@ router.post('/', upload.single('myfile'), (req, res) => {
 router.get('/', (req, res) => {
   Image.find()
   .then(images => res.send(images))
-  .catch(err => res.status(400).send(err));
-});
-
-router.delete('/:id', (req, res) => {
-  Image.remove({ _id: req.params.id })
-  .then(res.send('image deleted'))
   .catch(err => res.status(400).send(err));
 });
 
