@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { browserHistory } from 'react-router';
-// import { Image, Container } from 'semantic-ui-react';
+import { Container } from 'semantic-ui-react';
 
 import { upload, getImages } from '../actions/PostActions';
 import FileUpload from './FileUpload';
@@ -14,10 +14,10 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
+      <Container>
         <FileUpload submitFile={this.props.upload} />
         <ImageList images={this.props.pics} />
-      </div>
+      </Container>
     );
   }
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Card, Icon, Image } from 'semantic-ui-react';
 
 import ImageCard from './ImageCard';
 
@@ -9,14 +10,14 @@ const ImageList = (props) => {
       const { url, _id, name } = pic;
       return (
         // <img className="listimg" src={url} alt={name} key={_id} />
-        <ImageCard imageUrl={url} />
+          <ImageCard imageUrl={url} key={_id} />
       );
     });
   }
   return (
-    <div>
+    <Card.Group>
       {picList}
-    </div>
+    </Card.Group>
   );
 }
 
