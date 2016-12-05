@@ -1,19 +1,22 @@
 import React from 'react';
 import { Card, Icon, Image } from 'semantic-ui-react';
 
-const ImageCard = props => (
+const ImageCard = (props) => {
+  const { url, _id, name } = props.pic
+  return (
   <Card href="#">
-    <Image src={props.imageUrl} />
+    <Image src={url} />
     <Card.Content>
-      <Card.Header>Daniel</Card.Header>
-      <Card.Meta>Joined in 2016</Card.Meta>
-      <Card.Description>Daniel is a comedian living in Nashville.</Card.Description>
+      <Card.Header>Name</Card.Header>
+      <Card.Meta>Date</Card.Meta>
+      <Card.Description>Description</Card.Description>
     </Card.Content>
     <Card.Content extra>
-      <Icon name="user" />
-      10 Friends
+      <Icon name="comments" />
+      0 Comments
     </Card.Content>
   </Card>
-)
+  );
+};
 
 export default ImageCard
