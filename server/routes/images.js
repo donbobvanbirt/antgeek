@@ -4,6 +4,7 @@ const router = express.Router();
 const Image = require('../models/Image');
 
 const multer = require('multer');
+
 const upload = multer({ storage: multer.memoryStorage() });
 
 router.post('/', upload.single('myfile'), (req, res) => {

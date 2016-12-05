@@ -1,11 +1,28 @@
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
-import { Image, Container } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+// import { browserHistory } from 'react-router';
+// import { Image, Container } from 'semantic-ui-react';
 
-export default class Home extends Component {
+import { upload } from '../actions/PostActions';
+import FileUpload from './FileUpload';
+
+class Home extends Component {
   render() {
     return (
-      <h1>AntGeek</h1>
+      <div>
+        <h1>AntGeek</h1>
+        <FileUpload submitFile={this.props.upload} />
+      </div>
     );
   }
 }
+
+const mapStateToProps = null;
+
+const mapDispatchToProps = dispatch => ({
+  upload(file) {
+    dispatch(upload(file));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

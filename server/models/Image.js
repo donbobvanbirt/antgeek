@@ -1,4 +1,4 @@
-const Bucket = 'image-uploader-app-build';
+const Bucket = 'antgeek-images';
 const AWS_URL_BASE = 's3.amazonaws.com';
 
 const mongoose = require('mongoose');
@@ -30,7 +30,7 @@ imageSchema.statics.upload = function (fileObj) {
     s3.putObject(params, (err) => {
       if (err) return reject(err);
       const url = `https://${Bucket}.${AWS_URL_BASE}/${Key}`;
-
+      console.log('params:', params);
       this.create({ url, Key, name: originalname }, (err, imageDoc) => {
         if (err) return reject(err);
         resolve(imageDoc);

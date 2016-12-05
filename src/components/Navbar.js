@@ -4,7 +4,9 @@ import { Menu } from 'semantic-ui-react';
 export default class Navbar extends Component {
   state = {}
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+  handleItemClick = (e, { name }) => {
+    this.setState({ activeItem: name });
+  }
 
   render() {
     const { activeItem } = this.state;
