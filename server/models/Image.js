@@ -15,7 +15,8 @@ const imageSchema = new mongoose.Schema({
   title: { type: String },
   description: { type: String },
   tags: { type: Array },
-  posts: [{
+  timestamp: { type: Date, required: true, default: Date.now },
+  comments: [{
     body: { type: String, required: true },
     timestamp: { type: Date, required: true, default: Date.now },
   }],
