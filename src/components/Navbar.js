@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import { Menu } from 'semantic-ui-react';
 
 export default class Navbar extends Component {

@@ -28,6 +28,15 @@ export function getImages() {
   };
 }
 
+export function getCurrentImage(id) {
+  return (dispatch) => {
+    axios.get(`/api/images/${id}`)
+      .then(res => res.data)
+      .then(data2 => dispatch(gotCurrentImage(data2)))
+      .catch(console.error);
+  };
+}
+
 export function uploadSuccess(image) {
   return {
     type: 'UPLOAD_SUCCESS',
@@ -40,5 +49,12 @@ export function getAllImages(images) {
   return {
     type: 'GOT_ALL_IMAGES',
     payload: images,
+  };
+}
+
+export function gotCurrentImage(image) {
+  return {
+    type: 'GOT_CURRENT_IMAGE',
+    payload: image,
   };
 }
