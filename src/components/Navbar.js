@@ -18,7 +18,8 @@ export default class Navbar extends Component {
           <img id="top-logo" src="/images/logoBlackTransparrent.png" alt="" />
         </Menu.Item>
         <Menu.Item name="Search" active={activeItem === 'Search'} onClick={this.handleItemClick} />
-        <Menu.Item name="Profile" active={activeItem === 'Profile'} onClick={this.handleItemClick} />
+
+        <Menu.Item position="right" name="Login" active={activeItem === 'Profile'} onClick={this.handleItemClick} />
       </Menu>
     );
   }
