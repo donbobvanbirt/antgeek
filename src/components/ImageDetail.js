@@ -43,8 +43,9 @@ class ImageDetail extends Component {
 
   submitNewTags = (e) => {
     e.preventDefault();
+    const tagArr = this.state.newTags.split(',').map(tag => (tag.trim()));
     const tagObj = {
-      newTags: this.state.newTags.split(','),
+      newTags: tagArr,
     };
     this.props.addTags(this.props.params.id, tagObj);
     this.setState({ newTags: '', tagModel: false });

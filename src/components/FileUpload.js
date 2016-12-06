@@ -62,7 +62,7 @@ export default class FileUpload extends Component {
             <Form>
               <Form.Input type="file" label="Image File" onChange={this._onFileSelect} required />
               <Form.Input type="text" label="Title" name="title" onChange={this._onType} />
-              <Form.Input type="text" label="Tags - separated by spaces" name="tags" placeholder="If you know the scientific or common names enter them here" onChange={this._onType} />
+              <Form.Input type="text" label="Tags - separated by commas" name="tags" placeholder="If you know the scientific or common names enter them here" onChange={this._onType} />
               <Form.TextArea label="Description" name="description" placeholder="Description" rows="3" onChange={this._onType} />
             </Form>
             {/* <form onSubmit={this._onSubmit}>
