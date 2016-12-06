@@ -14,6 +14,7 @@ router.post('/:description/:title/:tags', upload.single('myfile'), (req, res) =>
   // res.redirect('/');
   Image.upload(req.file, req.params)
     .then((imageDoc) => {
+      // console.log('imageDoc:', imageDoc);
       res.send(imageDoc);
     })
     .catch((err) => {
@@ -48,7 +49,7 @@ router.get('/:id', (req, res) => {
 
 // GET ALL IMAGES
 router.get('/', (req, res) => {
-  Image.find()
+  Image.find().sort({timestamp: -1})
   .then(images => res.send(images))
   .catch(err => res.status(400).send(err));
 });

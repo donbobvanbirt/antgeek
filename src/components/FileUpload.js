@@ -52,8 +52,6 @@ export default class FileUpload extends Component {
     const { imagePreviewUrl, open } = this.state;
     return (
       <div>
-
-
         <Button onClick={this.show('large')}>Share Image</Button>
 
         <Modal size="large" open={open} onClose={this.close}>

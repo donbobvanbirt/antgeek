@@ -7,3 +7,7 @@
 #demoimg {
   max-width: 500px;
 }
+
+#reportDiv {
+  cursor: pointer;
+}

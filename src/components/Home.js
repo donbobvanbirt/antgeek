@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { browserHistory } from 'react-router';
-import { Container } from 'semantic-ui-react';
+import { Container, Divider } from 'semantic-ui-react';
 
 import { upload, getImages } from '../actions/PostActions';
 import FileUpload from './FileUpload';
@@ -16,6 +16,7 @@ class Home extends Component {
     return (
       <Container>
         <FileUpload submitFile={this.props.upload} />
+        <Divider />
         <ImageList images={this.props.pics} />
       </Container>
     );

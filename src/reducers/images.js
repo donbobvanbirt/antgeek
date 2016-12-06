@@ -7,6 +7,9 @@ export default function images(state = null, action) {
     case 'GOT_ALL_IMAGES':
       console.log('action.payload:', action.payload);
       return action.payload;
+    case 'UPLOAD_SUCCESS':
+      // const newState = state.push(action.payload);
+      return [action.payload, ...state];
     default:
       return state;
   }

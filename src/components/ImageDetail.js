@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Form, Image, Container, Loader, Header, Label, Comment } from 'semantic-ui-react';
+import { Button, Form, Image, Container, Loader, Header, Label, Comment, Icon } from 'semantic-ui-react';
 import moment from 'moment';
 
 import { getCurrentImage, postComment } from '../actions/PostActions';
@@ -31,6 +31,10 @@ class ImageDetail extends Component {
     this.props.postComment(this.props.params.id, commentObj);
   }
 
+  reportImage = () => {
+    console.log('report');
+  }
+
   render() {
     let content = (<Loader active inline="centered" />);
     let id;
@@ -42,7 +46,7 @@ class ImageDetail extends Component {
     let comments;
     let user = 'AntEnthusiast';
 
-    if(this.props.currentImage) {
+    if (this.props.currentImage) {
       // console.log('this.props.currentImage:', this.props.currentImage[0]);
       const imageObj = this.props.currentImage[0];
       id = imageObj.id;
@@ -88,16 +92,21 @@ class ImageDetail extends Component {
           <p>{description}</p>
           <Header as="h3">Tags:</Header>
           {tags} <Button size="mini">Add Tag</Button>
+          <br />
+          <br />
+          <div id="reportDiv" onClick={this.reportImage}>
+            <Icon name="flag" /> Report image
+          </div>
           <Comment.Group>
             <Header as="h3">Comments:</Header>
             {comments}
           </Comment.Group>
           <Form reply onSubmit={this.submitComment}>
             <Form.TextArea placeholder="Comment on this image" name="newComment" onChange={this.handleChange} rows="3" />
-            <Button content="Submit" primary />
+            <Button icon="comment outline" content="Submit" primary />
           </Form>
         </div>
-      )
+      );
     }
 
     return (
