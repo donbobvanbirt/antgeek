@@ -37,10 +37,28 @@ export function getCurrentImage(id) {
   };
 }
 
+export function postComment(id, comment) {
+  return (dispatch) => {
+    // console.log('')
+    axios.post(`/api/images/comment/${id}`, comment)
+      .then((res) => {
+        dispatch(addedComment(res.data));
+      })
+      .catch(console.error);
+  }
+}
+
 export function uploadSuccess(image) {
   return {
     type: 'UPLOAD_SUCCESS',
     payload: image,
+  };
+}
+
+export function addedComment(data) {
+  return {
+    type: 'ADDED_COMMENT',
+    payload: data,
   };
 }
 

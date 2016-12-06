@@ -1,17 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Form, Image, Container, Loader, Header, Label } from 'semantic-ui-react';
+import { Button, Form, Image, Container, Loader, Header, Label, Comment } from 'semantic-ui-react';
 import moment from 'moment';
 
-import { getCurrentImage } from '../actions/PostActions';
+import { getCurrentImage, postComment } from '../actions/PostActions';
 
 class ImageDetail extends Component {
-  // constructor() {
-  //
-  // }
+  constructor() {
+    super();
+    this.state = {};
+  }
 
   componentWillMount() {
     this.props.getCurrentImage(this.props.params.id);
+  }
+
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  submitComment = (e) => {
+    e.preventDefault();
+    console.log('this.state.newComment:', this.state.newComment);
+    const commentObj = {
+      body: this.state.newComment,
+    };
+    this.props.postComment(this.props.params.id, commentObj);
   }
 
   render() {
@@ -38,6 +55,25 @@ class ImageDetail extends Component {
       ));
       if (imageObj.comments.length === 0) {
         comments = 'This post has no comments';
+      } else {
+        comments = imageObj.comments.map(comment => {
+          const { body, _id } = comment;
+          return (
+            <Comment key={_id}>
+              <Comment.Avatar src="http://semantic-ui.com/images/avatar/small/matt.jpg" />
+              <Comment.Content>
+                <Comment.Author as="a">{user}</Comment.Author>
+                <Comment.Metadata>
+                  <div>{moment(comment.timestamp).format('MMMM Do YYYY')}</div>
+                </Comment.Metadata>
+                <Comment.Text>{body}</Comment.Text>
+                <Comment.Actions>
+                  <Comment.Action>Like</Comment.Action>
+                </Comment.Actions>
+              </Comment.Content>
+            </Comment>
+          );
+        });
       }
 
       content = (
@@ -52,11 +88,13 @@ class ImageDetail extends Component {
           <p>{description}</p>
           <Header as="h3">Tags:</Header>
           {tags} <Button size="mini">Add Tag</Button>
-          <Header as="h3">Comments:</Header>
-          {comments}
-          <Form reply onSubmit={e => e.preventDefault()}>
-            <Form.TextArea rows="3" />
-            <Button content="Submit Comment" primary />
+          <Comment.Group>
+            <Header as="h3">Comments:</Header>
+            {comments}
+          </Comment.Group>
+          <Form reply onSubmit={this.submitComment}>
+            <Form.TextArea placeholder="Comment on this image" name="newComment" onChange={this.handleChange} rows="3" />
+            <Button content="Submit" primary />
           </Form>
         </div>
       )
@@ -77,6 +115,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getCurrentImage(id) {
     dispatch(getCurrentImage(id));
+  },
+  postComment(id, comment) {
+    dispatch(postComment(id, comment));
   },
 });
 

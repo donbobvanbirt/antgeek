@@ -7,6 +7,8 @@ export default function currentImage(state = null, action) {
     case 'GOT_CURRENT_IMAGE':
       console.log('action.payload:', action.payload);
       return action.payload;
+    case 'ADDED_COMMENT':
+      return [action.payload];
     default:
       return state;
   }
