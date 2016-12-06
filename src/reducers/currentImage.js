@@ -8,6 +8,7 @@ export default function currentImage(state = null, action) {
       console.log('action.payload:', action.payload);
       return action.payload;
     case 'ADDED_COMMENT':
+    case 'ADDED_TAGS':
       return [action.payload];
     default:
       return state;

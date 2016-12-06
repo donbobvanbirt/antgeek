@@ -45,7 +45,17 @@ export function postComment(id, comment) {
         dispatch(addedComment(res.data));
       })
       .catch(console.error);
-  }
+  };
+}
+
+export function addTags(id, tags) {
+  return (dispatch) => {
+    axios.post(`/api/images/tags/${id}`, tags)
+      .then((res) => {
+        dispatch(addedTags(res.data));
+      })
+      .catch(console.error);
+  };
 }
 
 export function uploadSuccess(image) {
@@ -74,5 +84,12 @@ export function gotCurrentImage(image) {
   return {
     type: 'GOT_CURRENT_IMAGE',
     payload: image,
+  };
+}
+
+export function addedTags(data) {
+  return {
+    type: 'ADDED_TAGS',
+    payload: data,
   };
 }

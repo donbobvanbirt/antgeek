@@ -33,6 +33,18 @@ router.post('/comment/:id', (req, res) => {
   .catch(err => res.status(400).send(err));
 });
 
+// ADD TAGS
+router.post('/tags/:id/', (req, res) => {
+  // console.log('req.body.newTags:', req.body.newTags);
+  Image.findOneAndUpdate(
+    { _id: req.params.id },
+    { $pushAll: { tags: req.body.newTags } },
+    { new: true }
+  )
+  .then(updatedImage => res.send(updatedImage))
+  .catch(err => res.status(400).send(err));
+});
+
 // DELETE IMAGE
 router.delete('/:id', (req, res) => {
   Image.remove({ _id: req.params.id })

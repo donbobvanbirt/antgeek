@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Form, Image, Container, Loader, Header, Label, Comment, Icon } from 'semantic-ui-react';
+import { Button, Form, Image, Container, Loader, Header, Label, Comment, Icon, Modal } from 'semantic-ui-react';
 import moment from 'moment';
 
-import { getCurrentImage, postComment } from '../actions/PostActions';
+import { getCurrentImage, postComment, addTags } from '../actions/PostActions';
 
 class ImageDetail extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = { newComment: '', newTags: '', tagModel: false };
   }
 
   componentWillMount() {
@@ -20,15 +20,34 @@ class ImageDetail extends Component {
     this.setState({
       [name]: value,
     });
+    // console.log('this.state:', this.state);
+  }
+
+  openTagModel = () => {
+    this.setState({ tagModel: true });
+  }
+
+  closeTagModel = () => {
+    this.setState({ tagModel: false });
   }
 
   submitComment = (e) => {
     e.preventDefault();
-    console.log('this.state.newComment:', this.state.newComment);
+    // console.log('this.state.newComment:', this.state.newComment);
     const commentObj = {
       body: this.state.newComment,
     };
     this.props.postComment(this.props.params.id, commentObj);
+    this.setState({ newComment: '' });
+  }
+
+  submitNewTags = (e) => {
+    e.preventDefault();
+    const tagObj = {
+      newTags: this.state.newTags.split(','),
+    };
+    this.props.addTags(this.props.params.id, tagObj);
+    this.setState({ newTags: '', tagModel: false });
   }
 
   reportImage = () => {
@@ -36,6 +55,7 @@ class ImageDetail extends Component {
   }
 
   render() {
+    const { newComment, tagModel, newTags } = this.state;
     let content = (<Loader active inline="centered" />);
     let id;
     let description;
@@ -91,7 +111,7 @@ class ImageDetail extends Component {
           </Header>
           <p>{description}</p>
           <Header as="h3">Tags:</Header>
-          {tags} <Button size="mini">Add Tag</Button>
+          {tags} <Label color="black" as="a" onClick={this.openTagModel}>Add Tags</Label>
           <br />
           <br />
           <div id="reportDiv" onClick={this.reportImage}>
@@ -102,9 +122,25 @@ class ImageDetail extends Component {
             {comments}
           </Comment.Group>
           <Form reply onSubmit={this.submitComment}>
-            <Form.TextArea placeholder="Comment on this image" name="newComment" onChange={this.handleChange} rows="3" />
+            <Form.TextArea placeholder="Comment on this image" name="newComment" value={newComment} onChange={this.handleChange} rows="3" />
             <Button icon="comment outline" content="Submit" primary />
           </Form>
+
+          <Modal open={tagModel} onClose={this.closeTagModel}>
+            <Modal.Header>Add Tags to {title}</Modal.Header>
+            <Modal.Content image>
+              <Image wrapped size="medium" src={url} />
+              <Modal.Description>
+                <Header>Enter tags separated by commas</Header>
+                <p>If you know the species or commons names enter them here:</p>
+                <Form onSubmit={this.submitNewTags}>
+                  <Form.TextArea placeholder="Camponotus, Carpenter ant, worker, queen, etc" name="newTags" value={newTags} onChange={this.handleChange} rows="3" />
+                  <Button>Submit</Button>
+                </Form>
+              </Modal.Description>
+            </Modal.Content>
+          </Modal>
+
         </div>
       );
     }
@@ -127,6 +163,9 @@ const mapDispatchToProps = dispatch => ({
   },
   postComment(id, comment) {
     dispatch(postComment(id, comment));
+  },
+  addTags(id, tags) {
+    dispatch(addTags(id, tags));
   },
 });
 
