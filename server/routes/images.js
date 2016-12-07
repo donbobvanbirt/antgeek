@@ -7,22 +7,6 @@ const multer = require('multer');
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-// ADD IMAGE
-router.post('/', upload.single('myfile'), (req, res) => {
-  console.log('req.query:', req.query);
-  console.log('req.params:', req.params);
-  console.log('req.file', req.file);
-  // res.redirect('/');
-  Image.upload(req.file, req.query)
-    .then((imageDoc) => {
-      // console.log('imageDoc:', imageDoc);
-      res.send(imageDoc);
-    })
-    .catch((err) => {
-      res.status(400).send(err);
-    });
-});
-
 // ADD COMMENT
 router.post('/comment/:id', (req, res) => {
   Image.findOneAndUpdate(
@@ -65,6 +49,22 @@ router.get('/:id', (req, res) => {
   Image.find({ _id: req.params.id })
   .then(image => res.send(image))
   .catch(err => res.status(400).send(err));
+});
+
+// ADD IMAGE
+router.post('/', upload.single('myfile'), (req, res) => {
+  console.log('req.query:', req.query);
+  console.log('req.params:', req.params);
+  console.log('req.file', req.file);
+  // res.redirect('/');
+  Image.upload(req.file, req.query)
+    .then((imageDoc) => {
+      // console.log('imageDoc:', imageDoc);
+      res.send(imageDoc);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
 });
 
 // GET ALL IMAGES

@@ -80,9 +80,14 @@ class ImageDetail extends Component {
       title = imageObj.title;
       url = imageObj.url;
       timestamp = imageObj.timestamp;
-      tags = imageObj.tags.map((tag, i) => (
-        <Label as="a" key={i} onClick={() => this.clickTag(tag)}>{tag}</Label>
-      ));
+      tags = imageObj.tags.map((tag, i) => {
+        if (tag) {
+          return (
+            <Label as="a" key={i} onClick={() => this.clickTag(tag)}>{tag}</Label>
+          );
+        }
+        return '';
+      });
       if (imageObj.comments.length === 0) {
         comments = 'This post has no comments';
       } else {
