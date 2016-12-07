@@ -45,7 +45,7 @@ imageSchema.statics.upload = function (fileObj, details) {
         name: originalname,
         description,
         title,
-        tags: tags.split(',').map(tag => (tag.trim())),
+        tags: tags.split(',').map(tag => (tag.trim().toLowerCase())),
       },
       (err, imageDoc) => {
         if (err) return reject(err);

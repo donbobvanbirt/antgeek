@@ -11,3 +11,7 @@
 #reportDiv {
   cursor: pointer;
 }
+
+#navSearchForm {
+  margin: 13px;
+}
