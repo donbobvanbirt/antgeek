@@ -13,6 +13,7 @@ export default class Navbar extends Component {
   search = (e, formInput) => {
     e.preventDefault();
     const { query } = formInput;
+    console.log('this.props.currentPath:', this.props.currentPath.split('/'));
     browserHistory.push(`/search/${query.toLowerCase()}`);
   }
 
@@ -22,7 +23,6 @@ export default class Navbar extends Component {
 
   render() {
     const { activeItem } = this.state;
-    console.log('browserHistory:', browserHistory);
     return (
       <Menu>
         <Menu.Item name="AntGeek" active={activeItem === 'AntGeek'} onClick={() => this.handleItemClick('home', '/')}>
