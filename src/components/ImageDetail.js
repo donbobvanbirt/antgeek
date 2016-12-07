@@ -34,12 +34,14 @@ class ImageDetail extends Component {
 
   submitComment = (e) => {
     e.preventDefault();
-    // console.log('this.state.newComment:', this.state.newComment);
-    const commentObj = {
-      body: this.state.newComment,
-    };
-    this.props.postComment(this.props.params.id, commentObj);
-    this.setState({ newComment: '' });
+    const { newComment } = this.state;
+    if (newComment.trim()) {
+      const commentObj = {
+        body: newComment,
+      };
+      this.props.postComment(this.props.params.id, commentObj);
+      this.setState({ newComment: '' });
+    }
   }
 
   submitNewTags = (e) => {

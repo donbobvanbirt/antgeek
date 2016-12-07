@@ -41,7 +41,14 @@ export default class FileUpload extends Component {
     };
     console.log('detailObj:', detailObj);
     this.props.submitFile(file, detailObj);
-    this.close();
+    // this.close();
+    this.setState({
+      file: '',
+      description: '',
+      tags: '',
+      title: '',
+      open: false,
+    })
   }
 
   show = () => () => this.setState({ open: true })
