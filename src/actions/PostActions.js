@@ -58,6 +58,16 @@ export function addTags(id, tags) {
   };
 }
 
+export function getSearchResults(query) {
+  return (dispatch) => {
+    axios.get(`/api/images/search/${query}`)
+    .then((res) => {
+      dispatch(gotSearchResults(res.data));
+    })
+    .catch(console.error);
+  }
+}
+
 export function uploadSuccess(image) {
   return {
     type: 'UPLOAD_SUCCESS',
@@ -90,6 +100,13 @@ export function gotCurrentImage(image) {
 export function addedTags(data) {
   return {
     type: 'ADDED_TAGS',
+    payload: data,
+  };
+}
+
+export function gotSearchResults(data) {
+  return {
+    type: 'GOT_SEARCH_RESULTS',
     payload: data,
   };
 }

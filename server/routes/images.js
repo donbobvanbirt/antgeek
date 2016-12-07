@@ -45,6 +45,13 @@ router.post('/tags/:id/', (req, res) => {
   .catch(err => res.status(400).send(err));
 });
 
+// GET SEARCH RESULTS
+router.get('/search/:searchQuery', (req, res) => {
+  Image.find({ tags: req.params.searchQuery })
+  .then(results => res.send(results))
+  .catch(err => res.status(400).send(err));
+});
+
 // DELETE IMAGE
 router.delete('/:id', (req, res) => {
   Image.remove({ _id: req.params.id })

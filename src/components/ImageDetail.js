@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { Button, Form, Image, Container, Loader, Header, Label, Comment, Icon, Modal } from 'semantic-ui-react';
 import moment from 'moment';
@@ -51,6 +52,10 @@ class ImageDetail extends Component {
     this.setState({ newTags: '', tagModel: false });
   }
 
+  clickTag = (search) => {
+    browserHistory.push(`/search/${search}`)
+  }
+
   reportImage = () => {
     console.log('report');
   }
@@ -76,7 +81,7 @@ class ImageDetail extends Component {
       url = imageObj.url;
       timestamp = imageObj.timestamp;
       tags = imageObj.tags.map((tag, i) => (
-        <Label as="a" key={i}>{tag}</Label>
+        <Label as="a" key={i} onClick={() => this.clickTag(tag)}>{tag}</Label>
       ));
       if (imageObj.comments.length === 0) {
         comments = 'This post has no comments';

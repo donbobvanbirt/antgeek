@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Form, Input } from 'semantic-ui-react';
 
 export default class Navbar extends Component {
   state = {}
 
-  handleItemClick = (e, { name }) => {
+  handleItemClick = (name, path) => {
     this.setState({ activeItem: name });
+    browserHistory.push(path)
+  }
+
+  search = (e, formInput) => {
+    e.preventDefault();
+    const { query } = formInput;
+    browserHistory.push(`/search/${query}`);
   }
 
   render() {
@@ -14,10 +21,15 @@ export default class Navbar extends Component {
 
     return (
       <Menu>
-        <Menu.Item name="AntGeek" active={activeItem === 'AntGeek'} onClick={this.handleItemClick}>
+        <Menu.Item name="AntGeek" active={activeItem === 'AntGeek'} onClick={() => this.handleItemClick('home', '/')}>
           <img id="top-logo" src="/images/logoBlackTransparrent.png" alt="" />
         </Menu.Item>
-        <Menu.Item icon="search" name="Search" active={activeItem === 'Search'} onClick={this.handleItemClick} />
+        {/* <Menu.Item icon="search" name="Search" active={activeItem === 'Search'} onClick={this.handleItemClick} /> */}
+        <Form className="navSearchForm" onSubmit={this.search.bind(this)}>
+          <Form.Field>
+            <Input name="query" id="searchInput" icon={{ name: 'search', link: true}} placeholder="Search" />
+          </Form.Field>
+        </Form>
         <Menu.Item position="right" name="Login" active={activeItem === 'Profile'} onClick={this.handleItemClick} />
       </Menu>
     );

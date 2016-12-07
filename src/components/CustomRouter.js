@@ -4,6 +4,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import Layout from './Layout';
 import Home from './Home';
 import ImageDetail from './ImageDetail';
+import SearchResults from './SearchResults';
 
 export default class CustomRouter extends Component {
   render() {
@@ -12,6 +13,7 @@ export default class CustomRouter extends Component {
         <Route path="/" component={Layout}>
           <IndexRoute component={Home} />
           <Route path="/detail/:id" component={ImageDetail} />
+          <Route path="/search/:searchQuery" component={SearchResults} />
         </Route>
       </Router>
     );
