@@ -8,11 +8,12 @@ const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage() });
 
 // ADD IMAGE
-router.post('/:description/:title/:tags', upload.single('myfile'), (req, res) => {
+router.post('/', upload.single('myfile'), (req, res) => {
+  console.log('req.query:', req.query);
   console.log('req.params:', req.params);
   console.log('req.file', req.file);
   // res.redirect('/');
-  Image.upload(req.file, req.params)
+  Image.upload(req.file, req.query)
     .then((imageDoc) => {
       // console.log('imageDoc:', imageDoc);
       res.send(imageDoc);

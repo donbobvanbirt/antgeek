@@ -8,7 +8,7 @@ export function upload(file, details) {
     console.log('data:', data);
     const { description, title, tags } = details;
     console.log('data:', data);
-    axios.post(`/api/images/${description}/${title}/${tags}`, data)
+    axios.post(`/api/images?description=${description}&title=${title}&tags=${tags}`, data)
       .then((res) => {
         const image = res.data;
         dispatch(uploadSuccess(image));
