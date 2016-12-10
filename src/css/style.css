@@ -15,3 +15,7 @@
 #navSearchForm {
   margin: 13px;
 }
+
+.login {
+  cursor: pointer;
+}

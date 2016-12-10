@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { Menu, Form, Input } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
-export default class Navbar extends Component {
+import Auth from './Auth';
+import { signOut } from '../actions/auth';
+
+class Navbar extends Component {
   state = {}
 
   handleItemClick = (name, path) => {
@@ -23,6 +27,9 @@ export default class Navbar extends Component {
 
   render() {
     const { activeItem } = this.state;
+    const { loggedIn, user, signOut } = this.props;
+    console.log('user:', user);
+    console.log('loggedIn:', loggedIn);
     return (
       <Menu>
         <Menu.Item name="AntGeek" active={activeItem === 'AntGeek'} onClick={() => this.handleItemClick('home', '/')}>
@@ -34,8 +41,23 @@ export default class Navbar extends Component {
             <Input name="query" id="searchInput" icon={{ name: 'search'}} placeholder="Search" />
           </Form.Field>
         </Form>
-        <Menu.Item position="right" name="Login" active={activeItem === 'Profile'} />
+        <Menu.Item position="right" name="auth">
+          <Auth loggedIn={loggedIn} user={user} signOut={signOut} />
+        </Menu.Item>
       </Menu>
     );
   }
 }
+
+const mapStateToProps = (state => ({
+  loggedIn: state.auth.authenticated,
+  user: state.auth.user,
+}));
+
+const mapDispatchToProps = dispatch => ({
+  signOut() {
+    dispatch(signOut());
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
