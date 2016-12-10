@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal } from 'semantic-ui-react';
+import { Modal, Dropdown } from 'semantic-ui-react';
 
 import Login from './Login';
 
@@ -21,12 +21,22 @@ export default class Auth extends Component {
   render() {
     const { open } = this.state;
     const { loggedIn, user, signOut } = this.props;
+    console.log('user:', user);
 
-    const logInOrOut = loggedIn ? (
-      <div className="login" onClick={signOut}>Log Out</div>
-    ) : (
+    const dropDown = (
+      <Dropdown text={user.displayName}>
+        <Dropdown.Menu>
+          <Dropdown.Item text="Profile" />
+          <Dropdown.Item text="Account" />
+          <Dropdown.Divider />
+          <Dropdown.Item onClick={signOut} text="Log Out" />
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+
+    const logInOrOut = loggedIn ? dropDown : (
       <div className="login" onClick={this.showModal}>Login/Register</div>
-    )
+    );
     return (
       <div>
         {logInOrOut}
