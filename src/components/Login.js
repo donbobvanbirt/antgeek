@@ -21,19 +21,18 @@ class Login extends Component {
     browserHistory.push('/');
   }
 
-  _signOut = () => {
-    this.props.signOut();
-  }
-
   render() {
     return (
       <div>
         <Header textAlign="center" as="h1" icon>
           <Icon name="user" />
-            Login to AntGeek
+            Sign In to AntGeek
         </Header>
-        <Button onClick={this._googleSignIn} fluid color="google plus"><Icon name="google" size="large" /> Sign In With Google</Button>
-        <button onClick={this._signOut}>Sign Out</button>
+        <Button onClick={this._googleSignIn} fluid color="google plus"><Icon name="google" size="large" /> Sign In with Google</Button>
+        <br />
+        <Button onClick={this._googleSignIn} fluid color="facebook"><Icon name="facebook" size="large" /> Sign In with Facebook</Button>
+        <br />
+        <Button onClick={this._googleSignIn} fluid color="twitter"><Icon name="twitter" size="large" /> Sign In with Twitter</Button>
       </div>
     );
   }
