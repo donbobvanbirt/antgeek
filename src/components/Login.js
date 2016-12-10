@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import { Header, Icon, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
@@ -12,7 +13,12 @@ class Login extends Component {
   }
 
   _googleSignIn = () => {
-    this.props.googleSignIn();
+    const { googleSignIn, hideModal } = this.props;
+    googleSignIn();
+    if (hideModal) {
+      hideModal();
+    }
+    browserHistory.push('/');
   }
 
   _signOut = () => {

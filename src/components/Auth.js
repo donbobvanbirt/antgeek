@@ -33,7 +33,7 @@ export default class Auth extends Component {
         <Modal open={open} onClose={this.hideModal}>
           <Modal.Content>
             <Modal.Description>
-              <Login />
+              <Login hideModal={this.hideModal} />
             </Modal.Description>
           </Modal.Content>
         </Modal>

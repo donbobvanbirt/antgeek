@@ -2,12 +2,12 @@ import axios from 'axios';
 
 export function upload(file, details) {
   return (dispatch) => {
-    console.log(file);
+    // console.log(file);
     const data = new FormData();
     data.append('myfile', file);
-    console.log('data:', data);
+    // console.log('data:', data);
     const { description, title, tags } = details;
-    console.log('data:', data);
+    // console.log('data:', data);
     axios.post(`/api/images?description=${description}&title=${title}&tags=${tags}`, data)
       .then((res) => {
         const image = res.data;
@@ -83,7 +83,6 @@ export function addedComment(data) {
 }
 
 export function getAllImages(images) {
-  console.log('images in actions:', images);
   return {
     type: 'GOT_ALL_IMAGES',
     payload: images,

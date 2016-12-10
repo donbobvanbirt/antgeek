@@ -28,8 +28,6 @@ class Navbar extends Component {
   render() {
     const { activeItem } = this.state;
     const { loggedIn, user, signOut } = this.props;
-    console.log('user:', user);
-    console.log('loggedIn:', loggedIn);
     return (
       <Menu>
         <Menu.Item name="AntGeek" active={activeItem === 'AntGeek'} onClick={() => this.handleItemClick('home', '/')}>
