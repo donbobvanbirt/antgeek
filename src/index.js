@@ -7,11 +7,13 @@ import { initAuth } from './actions/auth';
 
 import store from './store';
 
-render(
-  <Provider store={store}>
-    <CustomRouter />
-  </Provider>,
-  document.getElementById('root')
-);
 
-initAuth(store.dispatch);
+initAuth(store.dispatch)
+  .then(() => {
+    render(
+      <Provider store={store}>
+        <CustomRouter />
+      </Provider>,
+      document.getElementById('root')
+    );
+  });

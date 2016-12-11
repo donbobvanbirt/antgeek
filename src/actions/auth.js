@@ -73,7 +73,7 @@ export function initAuth(dispatch) {
       },
       (error) => {
         dispatch(initAuthError(error));
-        rej();
+        res();
       });
   });
 }
