@@ -1,11 +1,23 @@
 import React, { Component } from 'react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
+import { firebaseAuth } from '../firebase';
+
 import Layout from './Layout';
 import Home from './Home';
 import ImageDetail from './ImageDetail';
 import SearchResults from './SearchResults';
 import Dashboard from './Dashboard';
+import SignIn from './SignIn';
+
+function authCheck(nextState, transition) {
+  console.log('nextState:', nextState);
+  console.log('transition:', transition);
+  const user = firebaseAuth.currentUser;
+  if (!user) {
+    transition('/signin');
+  }
+}
 
 export default class CustomRouter extends Component {
   render() {
@@ -15,7 +27,8 @@ export default class CustomRouter extends Component {
           <IndexRoute component={Home} />
           <Route path="/detail/:id" component={ImageDetail} />
           <Route path="/search/:searchQuery" component={SearchResults} />
-          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/dashboard" component={Dashboard} onEnter={authCheck} />
+          <Route path="/signin" component={SignIn} />
         </Route>
       </Router>
     );

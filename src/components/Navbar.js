@@ -21,8 +21,9 @@ class Navbar extends Component {
     browserHistory.push(`/search/${query.toLowerCase()}`);
   }
 
-  testClick() {
-    console.log('search click')
+  logOut = () => {
+    this.props.signOut();
+    browserHistory.push('/');
   }
 
   render() {
@@ -40,7 +41,7 @@ class Navbar extends Component {
           </Form.Field>
         </Form>
         <Menu.Item position="right" name="auth">
-          <Auth loggedIn={loggedIn} user={user} signOut={signOut} />
+          <Auth loggedIn={loggedIn} user={user} signOut={this.logOut} handleItemClick={this.handleItemClick} />
         </Menu.Item>
       </Menu>
     );
