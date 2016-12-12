@@ -1,20 +1,31 @@
 const express = require('express');
+const multer = require('multer');
+
 const router = express.Router();
 
 const Image = require('../models/Image');
 
-const multer = require('multer');
-
 const upload = multer({ storage: multer.memoryStorage() });
+const authMiddleware = require('../config/authMiddleware');
 
 // ADD COMMENT
-router.post('/comment/:id', (req, res) => {
+router.post('/comment/:id', authMiddleware, (req, res) => {
+  // console.log('req.user:', req.user);
+  const commentObj = {
+    body: req.body.body,
+    user: req.user,
+  };
+  console.log('req.body:', req.body);
   Image.findOneAndUpdate(
     { _id: req.params.id },
-    { $push: { comments: req.body } },
+    { $push: { comments: commentObj } },
     { new: true }
   )
-  .then(updatedImage => res.send(updatedImage))
+  .then(updatedImage => {
+    // console.log('res.send:', res.send);
+    // res.send('comment added');
+    res.send(updatedImage);
+  })
   .catch(err => res.status(400).send(err));
 });
 
@@ -52,12 +63,12 @@ router.get('/:id', (req, res) => {
 });
 
 // ADD IMAGE
-router.post('/', upload.single('myfile'), (req, res) => {
-  console.log('req.query:', req.query);
-  console.log('req.params:', req.params);
-  console.log('req.file', req.file);
+router.post('/', authMiddleware, upload.single('myfile'), (req, res) => {
+  // console.log('req.query:', req.query);
+  // console.log('req.params:', req.params);
+  // console.log('req.user', req.user);
   // res.redirect('/');
-  Image.upload(req.file, req.query)
+  Image.upload(req.file, req.query, req.user)
     .then((imageDoc) => {
       // console.log('imageDoc:', imageDoc);
       res.send(imageDoc);

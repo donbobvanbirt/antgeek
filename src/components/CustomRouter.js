@@ -12,7 +12,7 @@ import SignIn from './SignIn';
 
 function authCheck(nextState, transition) {
   console.log('nextState:', nextState);
-  console.log('transition:', transition);
+  // console.log('transition:', transition);
   const user = firebaseAuth.currentUser;
   if (!user) {
     transition('/signin');

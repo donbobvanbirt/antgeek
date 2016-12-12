@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { firebaseAuth } from '../firebase';
 
 export function upload(file, details) {
   return (dispatch) => {
@@ -7,8 +8,16 @@ export function upload(file, details) {
     data.append('myfile', file);
     // console.log('data:', data);
     const { description, title, tags } = details;
-    // console.log('data:', data);
-    axios.post(`/api/images?description=${description}&title=${title}&tags=${tags}`, data)
+    // const token = firebaseAuth.currentUser.getToken();
+    // console.log('token:', token);
+    firebaseAuth.currentUser.getToken()
+      .then((token) => {
+        return axios.post(`/api/images?description=${description}&title=${title}&tags=${tags}`, data, {
+          headers: {
+            'x-auth-token': token,
+          },
+        });
+      })
       .then((res) => {
         const image = res.data;
         dispatch(uploadSuccess(image));
@@ -39,9 +48,16 @@ export function getCurrentImage(id) {
 
 export function postComment(id, comment) {
   return (dispatch) => {
-    // console.log('')
-    axios.post(`/api/images/comment/${id}`, comment)
+    firebaseAuth.currentUser.getToken()
+      .then((token) => {
+        return axios.post(`/api/images/comment/${id}`, comment, {
+          headers: {
+            'x-auth-token': token,
+          },
+        });
+      })
       .then((res) => {
+        console.log('res:', res);
         dispatch(addedComment(res.data));
       })
       .catch(console.error);

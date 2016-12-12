@@ -75,7 +75,7 @@ class ImageDetail extends Component {
     let user = 'AntEnthusiast';
 
     if (this.props.currentImage) {
-      // console.log('this.props.currentImage:', this.props.currentImage[0]);
+      console.log('this.props.currentImage:', this.props.currentImage[0]);
       const imageObj = this.props.currentImage[0];
       id = imageObj.id;
       description = imageObj.description;

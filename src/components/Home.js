@@ -25,6 +25,7 @@ class Home extends Component {
 
 const mapStateToProps = state => ({
   pics: state.images,
+  user: state.auth.user,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -16,18 +16,29 @@ const imageSchema = new mongoose.Schema({
   description: { type: String },
   tags: { type: Array },
   timestamp: { type: Date, required: true, default: Date.now },
+  user: {
+    name: { type: String, required: true },
+    picture: { type: String, required: true },
+    user_id: { type: String, required: true },
+    email: { type: String, required: true },
+  },
   comments: [{
     body: { type: String, required: true },
     timestamp: { type: Date, required: true, default: Date.now },
+    user: {
+      name: { type: String, required: true },
+      picture: { type: String, required: true },
+      user_id: { type: String, required: true },
+      email: { type: String, required: true },
+    },
   }],
 });
 
-imageSchema.statics.upload = function (fileObj, details) {
+imageSchema.statics.upload = function (fileObj, details, user) {
   return new Promise((resolve, reject) => {
     const { buffer, originalname } = fileObj;
     const { description, title, tags } = details;
     const Key = uuid() + path.extname(originalname);
-
     const params = {
       Bucket,
       Key,
@@ -38,13 +49,23 @@ imageSchema.statics.upload = function (fileObj, details) {
     s3.putObject(params, (err) => {
       if (err) return reject(err);
       const url = `https://${Bucket}.${AWS_URL_BASE}/${Key}`;
-      console.log('params:', params);
+      // console.log('user in Schema:', user);
+      // console.log('params:', params);
+      const { name, picture, user_id, email } = user;
+      const userObj = {
+        name,
+        picture,
+        user_id,
+        email,
+      };
+
       this.create({
         url,
         Key,
         name: originalname,
         description,
         title,
+        user: userObj,
         tags: tags.split(',').map(tag => (tag.trim().toLowerCase())),
       },
       (err, imageDoc) => {
