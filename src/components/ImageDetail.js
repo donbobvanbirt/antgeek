@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { Button, Form, Image, Container, Loader, Header, Label, Comment, Icon, Modal } from 'semantic-ui-react';
 import moment from 'moment';
+import lodash from 'lodash';
 
 import { getCurrentImage, postComment, addTags } from '../actions/PostActions';
 
@@ -59,8 +60,8 @@ class ImageDetail extends Component {
   }
 
   internalLink = (path) => {
-    // browserHistory.push(path)
-    console.log('path:', path);
+    browserHistory.push(path)
+    // console.log('path:', path);
   }
 
   reportImage = () => {
@@ -80,9 +81,12 @@ class ImageDetail extends Component {
     let userName;
     let avatar;
     let userId;
+    let commentForm = <div className="login" onClick={() => this.internalLink('/signin')}>Please log in to leave a comment</div>;
+    let tagButton = '';
+
 
     if (this.props.currentImage) {
-      console.log('this.props.currentImage:', this.props.currentImage[0]);
+      // console.log('this.props.currentImage:', this.props.currentImage[0]);
       const imageObj = this.props.currentImage[0];
       id = imageObj.id;
       description = imageObj.description;
@@ -123,6 +127,18 @@ class ImageDetail extends Component {
         });
       }
 
+      if (!_.isEmpty(this.props.user)) {
+        commentForm = (
+          <Form reply onSubmit={this.submitComment}>
+            <Form.TextArea placeholder="Comment on this image" name="newComment" value={newComment} onChange={this.handleChange} rows="3" />
+            <Button icon="comment outline" content="Submit" primary />
+          </Form>
+        );
+        tagButton = (
+          <Label color="black" as="a" onClick={this.openTagModel}>Add Tags</Label>
+        );
+      }
+
       content = (
         <div>
           <Header as="h1">
@@ -148,7 +164,7 @@ class ImageDetail extends Component {
           <br />
           <p>{description}</p>
           <Header as="h3">Tags:</Header>
-          {tags} <Label color="black" as="a" onClick={this.openTagModel}>Add Tags</Label>
+          {tags} {tagButton}
           <br />
           <br />
           <div id="reportDiv" onClick={this.reportImage}>
@@ -158,10 +174,8 @@ class ImageDetail extends Component {
             <Header as="h3">Comments:</Header>
             {comments}
           </Comment.Group>
-          <Form reply onSubmit={this.submitComment}>
-            <Form.TextArea placeholder="Comment on this image" name="newComment" value={newComment} onChange={this.handleChange} rows="3" />
-            <Button icon="comment outline" content="Submit" primary />
-          </Form>
+
+          {commentForm}
 
           <Modal open={tagModel} onClose={this.closeTagModel}>
             <Modal.Header>Add Tags to {title}</Modal.Header>
@@ -192,6 +206,7 @@ class ImageDetail extends Component {
 
 const mapStateToProps = state => ({
   currentImage: state.currentImage,
+  user: state.auth.user,
 });
 
 const mapDispatchToProps = dispatch => ({

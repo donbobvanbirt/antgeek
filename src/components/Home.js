@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import { browserHistory } from 'react-router';
+import lodash from 'lodash';
+
 import { Container, Divider } from 'semantic-ui-react';
 
 import { upload, getImages } from '../actions/PostActions';
@@ -13,11 +14,13 @@ class Home extends Component {
   }
 
   render() {
+    const { upload, pics, user } = this.props;
+    const fileUpload = _.isEmpty(user) ? '' : <FileUpload submitFile={upload} />;
     return (
       <Container>
-        <FileUpload submitFile={this.props.upload} />
+        {fileUpload}
         <Divider />
-        <ImageList images={this.props.pics} />
+        <ImageList images={pics} />
       </Container>
     );
   }

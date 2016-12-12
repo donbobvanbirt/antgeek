@@ -12,7 +12,7 @@ export default class ImageCard extends Component {
 
   render() {
     const { url, _id, title, tags, description, comments, timestamp, user } = this.props.pic;
-    console.log('this.props.pic', this.props.pic);
+
     return (
       <Card onClick={() => this.selectPic(_id)}>
         <Image src={url} />

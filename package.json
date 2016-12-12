@@ -29,6 +29,7 @@
     "firebase": "^3.6.3",
     "firebase-admin": "^4.0.4",
     "imports-loader": "^0.6.5",
+    "lodash": "^4.17.2",
     "moment": "^2.17.1",
     "mongoose": "^4.6.7",
     "morgan": "^1.7.0",
