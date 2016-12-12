@@ -58,6 +58,11 @@ class ImageDetail extends Component {
     browserHistory.push(`/search/${search}`)
   }
 
+  internalLink = (path) => {
+    // browserHistory.push(path)
+    console.log('path:', path);
+  }
+
   reportImage = () => {
     console.log('report');
   }
@@ -71,8 +76,10 @@ class ImageDetail extends Component {
     let url;
     let timestamp;
     let tags;
-    let comments;
-    let user = 'AntEnthusiast';
+    let comments = 'This post has no comments';
+    let userName;
+    let avatar;
+    let userId;
 
     if (this.props.currentImage) {
       console.log('this.props.currentImage:', this.props.currentImage[0]);
@@ -82,6 +89,10 @@ class ImageDetail extends Component {
       title = imageObj.title;
       url = imageObj.url;
       timestamp = imageObj.timestamp;
+      userName = imageObj.user.name;
+      avatar = imageObj.user.picture;
+      userId = imageObj.user.user_id;
+      console.log('userName', userName);
       tags = imageObj.tags.map((tag, i) => {
         if (tag) {
           return (
@@ -90,18 +101,17 @@ class ImageDetail extends Component {
         }
         return '';
       });
-      if (imageObj.comments.length === 0) {
-        comments = 'This post has no comments';
-      } else {
-        comments = imageObj.comments.map(comment => {
-          const { body, _id } = comment;
+      if (imageObj.comments.length) {
+        comments = imageObj.comments.map((comment) => {
+          const { body, _id, user } = comment;
+          console.log('comment:', comment);
           return (
             <Comment key={_id}>
-              <Comment.Avatar src="http://semantic-ui.com/images/avatar/small/matt.jpg" />
+              <Comment.Avatar src={user.picture} />
               <Comment.Content>
-                <Comment.Author as="a">{user}</Comment.Author>
+                <Comment.Author as="a" onClick={() => this.internalLink(`profile/${user.user_id}`)}>{user.name}</Comment.Author>
                 <Comment.Metadata>
-                  <div>{moment(comment.timestamp).format('MMMM Do YYYY')}</div>
+                  <div>{moment(comment.timestamp).fromNow()}</div>
                 </Comment.Metadata>
                 <Comment.Text>{body}</Comment.Text>
                 <Comment.Actions>
@@ -115,13 +125,27 @@ class ImageDetail extends Component {
 
       content = (
         <div>
-          <Image src={url} fluid />
           <Header as="h1">
             {title}
             <Header.Subheader>
-              Uploaded by {user} on {moment(timestamp).format('MMMM Do YYYY')}
+              Uploaded by {userName} on {moment(timestamp).format('MMMM Do YYYY')}
             </Header.Subheader>
           </Header>
+          <Image src={url} fluid />
+
+          <Comment.Group>
+            <Comment>
+              <Comment.Avatar src={avatar} />
+              <Comment.Content>
+                <Comment.Author as="a" onClick={() => this.internalLink(`profile/${userId}`)}>{userName}</Comment.Author>
+                <Comment.Metadata>
+                  <div>{moment(timestamp).fromNow()}</div>
+                </Comment.Metadata>
+              </Comment.Content>
+            </Comment>
+          </Comment.Group>
+
+          <br />
           <p>{description}</p>
           <Header as="h3">Tags:</Header>
           {tags} <Label color="black" as="a" onClick={this.openTagModel}>Add Tags</Label>
