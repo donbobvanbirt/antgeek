@@ -30,7 +30,7 @@ router.post('/comment/:id', authMiddleware, (req, res) => {
 });
 
 // ADD TAGS
-router.post('/tags/:id/', (req, res) => {
+router.post('/tags/:id/', authMiddleware, (req, res) => {
   // console.log('req.body.newTags:', req.body.newTags);
   Image.findOneAndUpdate(
     { _id: req.params.id },

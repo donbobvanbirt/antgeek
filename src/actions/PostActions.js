@@ -66,7 +66,14 @@ export function postComment(id, comment) {
 
 export function addTags(id, tags) {
   return (dispatch) => {
-    axios.post(`/api/images/tags/${id}`, tags)
+    firebaseAuth.currentUser.getToken()
+      .then((token) => {
+        return axios.post(`/api/images/tags/${id}`, tags, {
+          headers: {
+            'x-auth-token': token,
+          },
+        });
+      })
       .then((res) => {
         dispatch(addedTags(res.data));
       })
