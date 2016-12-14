@@ -1,31 +1,37 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { Container, Header } from 'semantic-ui-react';
 
-import { firebaseAuth } from '../firebase';
+import { getImagesByUser } from '../actions/PostActions';
+import ImageList from './ImageList';
 
-export default class Dashboard extends Component {
-  // componentDidMount() {
-  //   firebaseAuth.currentUser.getToken()
-  //     .then((token) => {
-  //       return axios.get('/api/secret', {
-  //         headers: {
-  //           'x-auth-token': token,
-  //         },
-  //       });
-  //     })
-  //     .then((res) => {
-  //       console.log('res:', res);
-  //     })
-  //     .catch((err) => {
-  //       console.log('err:', err);
-  //     });
-  // }
+class Dashboard extends Component {
+  componentWillMount() {
+    this.props.getImagesByUser(this.props.user.uid);
+  }
 
   render() {
+    const { user, userImages } = this.props;
+    console.log('user:', user);
+    console.log('userImages:', userImages);
     return (
-      <div>
+      <Container>
         <h1>Dashboard</h1>
-      </div>
+        <ImageList images={userImages} />
+      </Container>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  user: state.auth.user,
+  userImages: state.userImages,
+});
+
+const mapDispatchToProps = dispatch => ({
+  getImagesByUser(id) {
+    dispatch(getImagesByUser(id));
+  },
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

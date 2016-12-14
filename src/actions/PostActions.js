@@ -91,6 +91,16 @@ export function getSearchResults(query) {
   }
 }
 
+export function getImagesByUser(id) {
+  return (dispatch) => {
+    axios.get(`/api/images/user/${id}`)
+    .then((res) => {
+      dispatch(gotImagesByUser(res.data));
+    })
+    .catch(console.error);
+  };
+}
+
 export function uploadSuccess(image) {
   return {
     type: 'UPLOAD_SUCCESS',
@@ -129,6 +139,13 @@ export function addedTags(data) {
 export function gotSearchResults(data) {
   return {
     type: 'GOT_SEARCH_RESULTS',
+    payload: data,
+  };
+}
+
+export function gotImagesByUser(data) {
+  return {
+    type: 'GOT_IMAGES_BY_USER',
     payload: data,
   };
 }

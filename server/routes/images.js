@@ -21,7 +21,7 @@ router.post('/comment/:id', authMiddleware, (req, res) => {
     { $push: { comments: commentObj } },
     { new: true }
   )
-  .then(updatedImage => {
+  .then((updatedImage) => {
     // console.log('res.send:', res.send);
     // res.send('comment added');
     res.send(updatedImage);
@@ -38,6 +38,13 @@ router.post('/tags/:id/', authMiddleware, (req, res) => {
     { new: true }
   )
   .then(updatedImage => res.send(updatedImage))
+  .catch(err => res.status(400).send(err));
+});
+
+// GET IMAGES BY USER ID
+router.get('/user/:user', (req, res) => {
+  Image.find({ 'user.user_id': req.params.user })
+  .then(results => res.send(results))
   .catch(err => res.status(400).send(err));
 });
 

@@ -10,6 +10,7 @@ class SearchResults extends Component {
   componentWillMount() {
     this.props.getSearchResults(this.props.params.searchQuery);
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.params.searchQuery !== this.props.params.searchQuery) {
       this.props.getSearchResults(nextProps.params.searchQuery);
