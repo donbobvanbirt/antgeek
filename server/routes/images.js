@@ -41,6 +41,18 @@ router.post('/tags/:id/', authMiddleware, (req, res) => {
   .catch(err => res.status(400).send(err));
 });
 
+// ADD LIKE
+router.post('/like/:id/', authMiddleware, (req, res) => {
+  // console.log('req.body.newTags:', req.body.newTags);
+  Image.findOneAndUpdate(
+    { _id: req.params.id },
+    { $push: { tags: req.user } },
+    { new: true }
+  )
+  .then(updatedImage => res.send(updatedImage))
+  .catch(err => res.status(400).send(err));
+});
+
 // GET IMAGES BY USER ID
 router.get('/user/:user', (req, res) => {
   Image.find({ 'user.user_id': req.params.user })

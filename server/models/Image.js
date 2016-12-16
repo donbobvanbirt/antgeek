@@ -16,6 +16,9 @@ const imageSchema = new mongoose.Schema({
   description: { type: String },
   tags: { type: Array },
   timestamp: { type: Date, required: true, default: Date.now },
+  likes: [{
+    userId: { type: String, required: true },
+  }],
   user: {
     name: { type: String, required: true },
     picture: { type: String, required: true },

@@ -22,7 +22,6 @@ class ImageDetail extends Component {
     this.setState({
       [name]: value,
     });
-    // console.log('this.state:', this.state);
   }
 
   openTagModel = () => {
@@ -86,7 +85,7 @@ class ImageDetail extends Component {
 
 
     if (this.props.currentImage) {
-      // console.log('this.props.currentImage:', this.props.currentImage[0]);
+      console.log('this.props.currentImage:', this.props.currentImage[0]);
       const imageObj = this.props.currentImage[0];
       id = imageObj.id;
       description = imageObj.description;
@@ -96,7 +95,7 @@ class ImageDetail extends Component {
       userName = imageObj.user.name;
       avatar = imageObj.user.picture;
       userId = imageObj.user.user_id;
-      console.log('userName', userName);
+      // console.log('userName', userName);
       tags = imageObj.tags.map((tag, i) => {
         if (tag) {
           return (
