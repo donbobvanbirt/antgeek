@@ -9,6 +9,7 @@ export default function currentImage(state = null, action) {
       return action.payload;
     case 'ADDED_COMMENT':
     case 'ADDED_TAGS':
+    case 'ADDED_LIKE':
       return [action.payload];
     default:
       return state;

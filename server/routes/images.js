@@ -42,11 +42,11 @@ router.post('/tags/:id/', authMiddleware, (req, res) => {
 });
 
 // ADD LIKE
-router.post('/like/:id/', authMiddleware, (req, res) => {
-  // console.log('req.body.newTags:', req.body.newTags);
+router.put('/like/:id/', authMiddleware, (req, res) => {
+  console.log('req.user:', req.user);
   Image.findOneAndUpdate(
     { _id: req.params.id },
-    { $push: { tags: req.user } },
+    { $push: { likes: req.user.user_id } },
     { new: true }
   )
   .then(updatedImage => res.send(updatedImage))

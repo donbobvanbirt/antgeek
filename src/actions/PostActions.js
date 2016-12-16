@@ -64,6 +64,25 @@ export function postComment(id, comment) {
   };
 }
 
+export function likePost(postId) {
+  return (dispatch) => {
+    firebaseAuth.currentUser.getToken()
+      .then((token) => {
+        console.log('token in actions:', token);
+        return axios.put(`/api/images/like/${postId}`, null, {
+          headers: {
+            'x-auth-token': token,
+          },
+        });
+      })
+      .then((res) => {
+        console.log('res:', res);
+        dispatch(addedLike(res.data));
+      })
+      .catch(console.error);
+  };
+}
+
 export function addTags(id, tags) {
   return (dispatch) => {
     firebaseAuth.currentUser.getToken()
@@ -132,6 +151,14 @@ export function gotCurrentImage(image) {
 export function addedTags(data) {
   return {
     type: 'ADDED_TAGS',
+    payload: data,
+  };
+}
+
+export function addedLike(data) {
+  console.log('data:', data);
+  return {
+    type: 'ADDED_LIKE',
     payload: data,
   };
 }

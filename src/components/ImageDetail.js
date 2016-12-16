@@ -5,7 +5,7 @@ import { Button, Form, Image, Container, Loader, Header, Label, Comment, Icon, M
 import moment from 'moment';
 import lodash from 'lodash';
 
-import { getCurrentImage, postComment, addTags } from '../actions/PostActions';
+import { getCurrentImage, postComment, addTags, likePost } from '../actions/PostActions';
 
 class ImageDetail extends Component {
   constructor() {
@@ -54,12 +54,17 @@ class ImageDetail extends Component {
     this.setState({ newTags: '', tagModel: false });
   }
 
+  addLike = (id) => {
+    // console.log('liked!', id);
+    this.props.likePost(this.props.params.id);
+  }
+
   clickTag = (search) => {
     browserHistory.push(`/search/${search}`)
   }
 
   internalLink = (path) => {
-    browserHistory.push(path)
+    browserHistory.push(path);
     // console.log('path:', path);
   }
 
@@ -82,12 +87,13 @@ class ImageDetail extends Component {
     let userId;
     let commentForm = <div className="login" onClick={() => this.internalLink('/signin')}>Please log in to leave a comment</div>;
     let tagButton = '';
-
+    let likeButton = <Icon size="big" link name="empty heart" onClick={() => this.internalLink('/signin')} />;
+    let likeCount = '';
 
     if (this.props.currentImage) {
       console.log('this.props.currentImage:', this.props.currentImage[0]);
       const imageObj = this.props.currentImage[0];
-      id = imageObj.id;
+      id = imageObj._id;
       description = imageObj.description;
       title = imageObj.title;
       url = imageObj.url;
@@ -95,6 +101,7 @@ class ImageDetail extends Component {
       userName = imageObj.user.name;
       avatar = imageObj.user.picture;
       userId = imageObj.user.user_id;
+      likeCount = imageObj.likes.length;
       // console.log('userName', userName);
       tags = imageObj.tags.map((tag, i) => {
         if (tag) {
@@ -136,6 +143,9 @@ class ImageDetail extends Component {
         tagButton = (
           <Label color="black" as="a" onClick={this.openTagModel}>Add Tags</Label>
         );
+        likeButton = (
+          <Icon size="big" link name="empty heart" onClick={() => this.addLike(id)} />
+        );
       }
 
       content = (
@@ -147,7 +157,8 @@ class ImageDetail extends Component {
             </Header.Subheader>
           </Header>
           <Image src={url} fluid />
-
+          <br />
+          {likeButton} {likeCount}
           <Comment.Group>
             <Comment>
               <Comment.Avatar src={avatar} />
@@ -217,6 +228,9 @@ const mapDispatchToProps = dispatch => ({
   },
   addTags(id, tags) {
     dispatch(addTags(id, tags));
+  },
+  likePost(id, tags) {
+    dispatch(likePost(id));
   },
 });
 
