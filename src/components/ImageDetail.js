@@ -5,7 +5,7 @@ import { Button, Form, Image, Container, Loader, Header, Label, Comment, Icon, M
 import moment from 'moment';
 import lodash from 'lodash';
 
-import { getCurrentImage, postComment, addTags, likePost } from '../actions/PostActions';
+import { getCurrentImage, postComment, addTags, likePost, unlikePost } from '../actions/PostActions';
 
 class ImageDetail extends Component {
   constructor() {
@@ -54,9 +54,14 @@ class ImageDetail extends Component {
     this.setState({ newTags: '', tagModel: false });
   }
 
-  addLike = (id) => {
+  addLike = () => {
     // console.log('liked!', id);
     this.props.likePost(this.props.params.id);
+  }
+
+  removeLike = () => {
+    // console.log('liked!', id);
+    this.props.unlikePost(this.props.params.id);
   }
 
   clickTag = (search) => {
@@ -89,9 +94,10 @@ class ImageDetail extends Component {
     let tagButton = '';
     let likeButton = <Icon size="big" link name="empty heart" onClick={() => this.internalLink('/signin')} />;
     let likeCount = '';
+    let likes;
 
     if (this.props.currentImage) {
-      console.log('this.props.currentImage:', this.props.currentImage[0]);
+      // console.log('this.props.currentImage:', this.props.currentImage[0]);
       const imageObj = this.props.currentImage[0];
       id = imageObj._id;
       description = imageObj.description;
@@ -102,7 +108,9 @@ class ImageDetail extends Component {
       avatar = imageObj.user.picture;
       userId = imageObj.user.user_id;
       likeCount = imageObj.likes.length;
-      // console.log('userName', userName);
+      // likes = Object.values(imageObj.likes).join();
+      likes = imageObj.likes.map(like => (Object.values(like).join('')));
+      console.log('likes', likes);
       tags = imageObj.tags.map((tag, i) => {
         if (tag) {
           return (
@@ -143,9 +151,18 @@ class ImageDetail extends Component {
         tagButton = (
           <Label color="black" as="a" onClick={this.openTagModel}>Add Tags</Label>
         );
-        likeButton = (
-          <Icon size="big" link name="empty heart" onClick={() => this.addLike(id)} />
-        );
+        const alreadyLiked = _.some(likes, like => (like === this.props.user.uid));
+        // console.log('this.props.user.uid:', this.props.user.uid);
+        console.log('alreadyLiked:', alreadyLiked);
+        if (alreadyLiked) {
+          likeButton = (
+            <Icon size="big" link name="heart" onClick={() => this.removeLike()} />
+          );
+        } else {
+          likeButton = (
+            <Icon size="big" link name="empty heart" onClick={() => this.addLike()} />
+          );
+        }
       }
 
       content = (
@@ -229,8 +246,11 @@ const mapDispatchToProps = dispatch => ({
   addTags(id, tags) {
     dispatch(addTags(id, tags));
   },
-  likePost(id, tags) {
+  likePost(id) {
     dispatch(likePost(id));
+  },
+  unlikePost(id) {
+    dispatch(unlikePost(id));
   },
 });
 

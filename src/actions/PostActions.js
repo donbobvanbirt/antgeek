@@ -83,6 +83,25 @@ export function likePost(postId) {
   };
 }
 
+export function unlikePost(postId) {
+  return (dispatch) => {
+    firebaseAuth.currentUser.getToken()
+      .then((token) => {
+        console.log('token in actions:', token);
+        return axios.put(`/api/images/unlike/${postId}`, null, {
+          headers: {
+            'x-auth-token': token,
+          },
+        });
+      })
+      .then((res) => {
+        console.log('res:', res);
+        dispatch(removedLike(res.data));
+      })
+      .catch(console.error);
+  };
+}
+
 export function addTags(id, tags) {
   return (dispatch) => {
     firebaseAuth.currentUser.getToken()
@@ -159,6 +178,14 @@ export function addedLike(data) {
   console.log('data:', data);
   return {
     type: 'ADDED_LIKE',
+    payload: data,
+  };
+}
+
+export function removedLike(data) {
+  console.log('data:', data);
+  return {
+    type: 'REMOVED_LIKE',
     payload: data,
   };
 }

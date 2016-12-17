@@ -43,10 +43,22 @@ router.post('/tags/:id/', authMiddleware, (req, res) => {
 
 // ADD LIKE
 router.put('/like/:id/', authMiddleware, (req, res) => {
-  console.log('req.user:', req.user);
+  // console.log('req.user.user_id:', typeof req.user.user_id);
   Image.findOneAndUpdate(
     { _id: req.params.id },
     { $push: { likes: req.user.user_id } },
+    { new: true }
+  )
+  .then(updatedImage => res.send(updatedImage))
+  .catch(err => res.status(400).send(err));
+});
+
+// REMOVE LIKE
+router.put('/unlike/:id/', authMiddleware, (req, res) => {
+  // console.log('req.user:', req.user);
+  Image.findOneAndUpdate(
+    { _id: req.params.id },
+    { $pull: { likes: req.user.user_id } },
     { new: true }
   )
   .then(updatedImage => res.send(updatedImage))
