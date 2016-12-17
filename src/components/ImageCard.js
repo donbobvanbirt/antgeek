@@ -11,8 +11,8 @@ export default class ImageCard extends Component {
   }
 
   render() {
-    const { url, _id, title, tags, description, comments, timestamp, user } = this.props.pic;
-
+    const { url, _id, title, tags, description, comments, timestamp, user, likes } = this.props.pic;
+    // console.log('this.props.pic:', this.props.pic);
     return (
       <Card onClick={() => this.selectPic(_id)}>
         <Image src={url} />
@@ -24,6 +24,10 @@ export default class ImageCard extends Component {
         <Card.Content extra>
           <Icon name="comments" />
           {comments.length} Comments
+          <div>
+            <Icon name="heart" />
+            {likes.length} Likes
+          </div>
         </Card.Content>
       </Card>
     );

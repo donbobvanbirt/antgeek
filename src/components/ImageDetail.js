@@ -110,7 +110,7 @@ class ImageDetail extends Component {
       likeCount = imageObj.likes.length;
       // likes = Object.values(imageObj.likes).join();
       likes = imageObj.likes.map(like => (Object.values(like).join('')));
-      console.log('likes', likes);
+      // console.log('likes', likes);
       tags = imageObj.tags.map((tag, i) => {
         if (tag) {
           return (
@@ -122,7 +122,6 @@ class ImageDetail extends Component {
       if (imageObj.comments.length) {
         comments = imageObj.comments.map((comment) => {
           const { body, _id, user } = comment;
-          console.log('comment:', comment);
           return (
             <Comment key={_id}>
               <Comment.Avatar src={user.picture} />
@@ -132,9 +131,9 @@ class ImageDetail extends Component {
                   <div>{moment(comment.timestamp).fromNow()}</div>
                 </Comment.Metadata>
                 <Comment.Text>{body}</Comment.Text>
-                <Comment.Actions>
+                {/* <Comment.Actions>
                   <Comment.Action>Like</Comment.Action>
-                </Comment.Actions>
+                </Comment.Actions> */}
               </Comment.Content>
             </Comment>
           );
@@ -152,8 +151,6 @@ class ImageDetail extends Component {
           <Label color="black" as="a" onClick={this.openTagModel}>Add Tags</Label>
         );
         const alreadyLiked = _.some(likes, like => (like === this.props.user.uid));
-        // console.log('this.props.user.uid:', this.props.user.uid);
-        console.log('alreadyLiked:', alreadyLiked);
         if (alreadyLiked) {
           likeButton = (
             <Icon size="big" link name="heart" onClick={() => this.removeLike()} />

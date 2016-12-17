@@ -57,7 +57,7 @@ export function postComment(id, comment) {
         });
       })
       .then((res) => {
-        console.log('res:', res);
+        // console.log('res:', res);
         dispatch(addedComment(res.data));
       })
       .catch(console.error);
@@ -68,7 +68,7 @@ export function likePost(postId) {
   return (dispatch) => {
     firebaseAuth.currentUser.getToken()
       .then((token) => {
-        console.log('token in actions:', token);
+        // console.log('token in actions:', token);
         return axios.put(`/api/images/like/${postId}`, null, {
           headers: {
             'x-auth-token': token,
@@ -175,7 +175,7 @@ export function addedTags(data) {
 }
 
 export function addedLike(data) {
-  console.log('data:', data);
+  // console.log('data:', data);
   return {
     type: 'ADDED_LIKE',
     payload: data,
