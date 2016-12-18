@@ -1,21 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Header, Table, Image, Grid, Divider } from 'semantic-ui-react';
+import { Container, Header, Table, Image, Grid, Divider, Menu } from 'semantic-ui-react';
 
-import { getImagesByUser, upload } from '../actions/PostActions';
+import { getImagesByUser, getLikedImages, upload } from '../actions/PostActions';
 import ImageList from './ImageList';
 import FileUpload from './FileUpload';
 
 class Dashboard extends Component {
+  state = { activeItem: 'posts' }
+
   componentWillMount() {
     this.props.getImagesByUser(this.props.user.uid);
   }
 
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
+  getPosts = () => {
+    this.setState({ activeItem: 'posts' });
+    this.props.getImagesByUser(this.props.user.uid);
+  }
+
+  getLikes = () => {
+    this.setState({ activeItem: 'likes' });
+    this.props.getLikedImages(this.props.user.uid);
+  }
+
   render() {
+    const { activeItem } = this.state;
     const { user, userImages, upload } = this.props;
     const { displayName, email, photoURL } = user;
-    console.log('user:', user);
-    console.log('userImages:', userImages);
+    // console.log('user:', user);
+    // console.log('userImages:', userImages);
     return (
       <Container>
         <Header as="h1" textAlign="center">Dashboard</Header>
@@ -42,9 +57,13 @@ class Dashboard extends Component {
           </Grid.Row>
         </Grid>
         <Divider />
-        <Header as="h2">Your Posts:</Header>
+        {/* <Header as="h2">Your Posts:</Header> */}
         {/* <FileUpload submitFile={upload} /> */}
         <br />
+        <Menu tabular>
+          <Menu.Item name='posts' active={activeItem === 'posts'} onClick={this.getPosts} />
+          <Menu.Item name='likes' active={activeItem === 'likes'} onClick={this.getLikes} />
+        </Menu>
         <ImageList images={userImages} />
       </Container>
     );
@@ -59,6 +78,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getImagesByUser(id) {
     dispatch(getImagesByUser(id));
+  },
+  getLikedImages(id) {
+    dispatch(getLikedImages(id));
   },
   upload(file, details) {
     dispatch(upload(file, details));
