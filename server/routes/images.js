@@ -43,7 +43,7 @@ router.post('/tags/:id/', authMiddleware, (req, res) => {
 
 // ADD LIKE
 router.put('/like/:id/', authMiddleware, (req, res) => {
-  // console.log('req.user.user_id:', typeof req.user.user_id);
+  console.log('req.user.user_id:', req.user.user_id);
   Image.findOneAndUpdate(
     { _id: req.params.id },
     { $push: { likes: req.user.user_id } },
@@ -68,6 +68,13 @@ router.put('/unlike/:id/', authMiddleware, (req, res) => {
 // GET IMAGES BY USER ID
 router.get('/user/:user', (req, res) => {
   Image.find({ 'user.user_id': req.params.user })
+  .then(results => res.send(results))
+  .catch(err => res.status(400).send(err));
+});
+
+// GET LIKED IMAGES
+router.get('/liked/:userId', (req, res) => {
+  Image.find({ likes: req.params.userId })
   .then(results => res.send(results))
   .catch(err => res.status(400).send(err));
 });
