@@ -126,7 +126,7 @@ class ImageDetail extends Component {
             <Comment key={_id}>
               <Comment.Avatar src={user.picture} />
               <Comment.Content>
-                <Comment.Author as="a" onClick={() => this.internalLink(`profile/${user.user_id}`)}>{user.name}</Comment.Author>
+                <Comment.Author as="a" onClick={() => this.internalLink(`/profile/${user.user_id}`)}>{user.name}</Comment.Author>
                 <Comment.Metadata>
                   <div>{moment(comment.timestamp).fromNow()}</div>
                 </Comment.Metadata>
@@ -177,7 +177,7 @@ class ImageDetail extends Component {
             <Comment>
               <Comment.Avatar src={avatar} />
               <Comment.Content>
-                <Comment.Author as="a" onClick={() => this.internalLink(`profile/${userId}`)}>{userName}</Comment.Author>
+                <Comment.Author as="a" onClick={() => this.internalLink(`/profile/${userId}`)}>{userName}</Comment.Author>
                 <Comment.Metadata>
                   <div>{moment(timestamp).fromNow()}</div>
                 </Comment.Metadata>
