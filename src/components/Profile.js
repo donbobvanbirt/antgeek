@@ -6,23 +6,23 @@ import { getImagesByUser, getLikedImages, upload } from '../actions/PostActions'
 import ImageList from './ImageList';
 import FileUpload from './FileUpload';
 
-class Dashboard extends Component {
+class Profile extends Component {
   state = { activeItem: 'posts' }
 
   componentWillMount() {
-    this.props.getImagesByUser(this.props.user.uid);
+    this.props.getImagesByUser(this.props.params.userId);
   }
 
   // handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   getPosts = () => {
     this.setState({ activeItem: 'posts' });
-    this.props.getImagesByUser(this.props.user.uid);
+    this.props.getImagesByUser(this.props.params.userId);
   }
 
   getLikes = () => {
     this.setState({ activeItem: 'likes' });
-    this.props.getLikedImages(this.props.user.uid);
+    this.props.getLikedImages(this.props.params.userId);
   }
 
   render() {
@@ -33,7 +33,7 @@ class Dashboard extends Component {
     // console.log('userImages:', userImages);
     return (
       <Container>
-        <Header as="h1" textAlign="center">Dashboard</Header>
+        <Header as="h1" textAlign="center">Profile</Header>
         <Divider />
         <Grid divided="vertically">
           <Grid.Row columns={2}>
@@ -87,4 +87,4 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

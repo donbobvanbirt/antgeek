@@ -21,13 +21,12 @@ export default class Auth extends Component {
   render() {
     const { open } = this.state;
     const { loggedIn, user, signOut, handleItemClick } = this.props;
-    console.log('user:', user);
-
+    // console.log('user:', user);
     const dropDown = (
       <Dropdown text={user.displayName}>
         <Dropdown.Menu>
           <Dropdown.Item onClick={() => handleItemClick('dashboard', '/dashboard')} text="Dashboard" />
-          <Dropdown.Item text="Profile" />
+          <Dropdown.Item onClick={() => handleItemClick('profile', `/profile/${user.uid}`)} text="Profile" />
           <Dropdown.Divider />
           <Dropdown.Item onClick={signOut} text="Log Out" />
         </Dropdown.Menu>

@@ -8,6 +8,7 @@ import Home from './Home';
 import ImageDetail from './ImageDetail';
 import SearchResults from './SearchResults';
 import Dashboard from './Dashboard';
+import Profile from './Profile';
 import SignIn from './SignIn';
 
 function authCheck(nextState, transition) {
@@ -28,6 +29,7 @@ export default class CustomRouter extends Component {
           <Route path="/detail/:id" component={ImageDetail} />
           <Route path="/search/:searchQuery" component={SearchResults} />
           <Route path="/dashboard" component={Dashboard} onEnter={authCheck} />
+          <Route path="/profile/:userId" component={Profile} />
           <Route path="/signin" component={SignIn} />
         </Route>
       </Router>

@@ -15,7 +15,7 @@ router.post('/comment/:id', authMiddleware, (req, res) => {
     body: req.body.body,
     user: req.user,
   };
-  console.log('req.body:', req.body);
+  // console.log('req.body:', req.body);
   Image.findOneAndUpdate(
     { _id: req.params.id },
     { $push: { comments: commentObj } },
