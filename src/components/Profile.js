@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Header, Table, Image, Grid, Divider, Menu } from 'semantic-ui-react';
+import moment from 'moment';
 
-import { getImagesByUser, getLikedImages, upload } from '../actions/PostActions';
+import { getImagesByUser, getLikedImages, getUserInfo } from '../actions/PostActions';
 import ImageList from './ImageList';
 import FileUpload from './FileUpload';
 
@@ -11,9 +12,8 @@ class Profile extends Component {
 
   componentWillMount() {
     this.props.getImagesByUser(this.props.params.userId);
+    this.props.getUserInfo(this.props.params.userId);
   }
-
-  // handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   getPosts = () => {
     this.setState({ activeItem: 'posts' });
@@ -27,13 +27,22 @@ class Profile extends Component {
 
   render() {
     const { activeItem } = this.state;
-    const { user, userImages, upload } = this.props;
-    const { displayName, email, photoURL } = user;
-    // console.log('user:', user);
-    // console.log('userImages:', userImages);
+    const { userImages, userInfo } = this.props;
+    let displayName = '';
+    let createdAt = '';
+    let lastSignedInAt = '';
+    let photoURL = '';
+
+    if (userInfo) {
+      displayName = userInfo.displayName;
+      photoURL = userInfo.photoURL;
+      createdAt = userInfo.metadata.createdAt;
+      lastSignedInAt = userInfo.metadata.lastSignedInAt;
+    }
+
     return (
       <Container>
-        <Header as="h1" textAlign="center">Profile</Header>
+        <Header as="h1" textAlign="center">{displayName}</Header>
         <Divider />
         <Grid divided="vertically">
           <Grid.Row columns={2}>
@@ -48,8 +57,12 @@ class Profile extends Component {
                     <Table.Cell singleLine>{displayName}</Table.Cell>
                   </Table.Row>
                   <Table.Row>
-                    <Table.Cell singleLine>Email:</Table.Cell>
-                    <Table.Cell singleLine>{email}</Table.Cell>
+                    <Table.Cell singleLine>Member Since:</Table.Cell>
+                    <Table.Cell singleLine>{moment(createdAt).fromNow()}</Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell singleLine>Last Seen:</Table.Cell>
+                    <Table.Cell singleLine>{moment(lastSignedInAt).fromNow()}</Table.Cell>
                   </Table.Row>
                 </Table.Body>
               </Table>
@@ -61,8 +74,8 @@ class Profile extends Component {
         {/* <FileUpload submitFile={upload} /> */}
         <br />
         <Menu tabular>
-          <Menu.Item name='posts' active={activeItem === 'posts'} onClick={this.getPosts} />
-          <Menu.Item name='likes' active={activeItem === 'likes'} onClick={this.getLikes} />
+          <Menu.Item name="posts" active={activeItem === 'posts'} onClick={this.getPosts} />
+          <Menu.Item name="likes" active={activeItem === 'likes'} onClick={this.getLikes} />
         </Menu>
         <ImageList images={userImages} />
       </Container>
@@ -73,6 +86,7 @@ class Profile extends Component {
 const mapStateToProps = state => ({
   user: state.auth.user,
   userImages: state.userImages,
+  userInfo: state.userInfo,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -82,9 +96,9 @@ const mapDispatchToProps = dispatch => ({
   getLikedImages(id) {
     dispatch(getLikedImages(id));
   },
-  upload(file, details) {
-    dispatch(upload(file, details));
+  getUserInfo(id) {
+    dispatch(getUserInfo(id));
   },
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

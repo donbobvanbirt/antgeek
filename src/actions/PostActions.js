@@ -149,6 +149,16 @@ export function getLikedImages(id) {
   };
 }
 
+export function getUserInfo(id) {
+  return (dispatch) => {
+    axios.get(`/api/users/${id}`)
+    .then((res) => {
+      dispatch(gotUserInfo(res.data));
+    })
+    .catch(console.error);
+  };
+}
+
 export function uploadSuccess(image) {
   return {
     type: 'UPLOAD_SUCCESS',
@@ -217,6 +227,13 @@ export function gotImagesByUser(data) {
 export function gotLikedImages(data) {
   return {
     type: 'GOT_LIKED_IMAGES',
+    payload: data,
+  };
+}
+
+export function gotUserInfo(data) {
+  return {
+    type: 'GOT_USER_INFO',
     payload: data,
   };
 }

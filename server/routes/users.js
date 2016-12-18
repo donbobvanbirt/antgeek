@@ -13,7 +13,7 @@ router.get('/:userId', (req, res) => {
       photoURL,
       metadata,
     };
-    console.log('Successfully fetched user data:', userRecord.toJSON());
+    // console.log('Successfully fetched user data:', userRecord.toJSON());
     return res.send(userInfo);
   })
   .catch((error) => {

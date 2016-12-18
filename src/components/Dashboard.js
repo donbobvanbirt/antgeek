@@ -13,8 +13,6 @@ class Dashboard extends Component {
     this.props.getImagesByUser(this.props.user.uid);
   }
 
-  // handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-
   getPosts = () => {
     this.setState({ activeItem: 'posts' });
     this.props.getImagesByUser(this.props.user.uid);

@@ -5,6 +5,7 @@ import currentImage from './currentImage';
 import results from './results';
 import auth from './auth';
 import userImages from './userImages';
+import userInfo from './userInfo';
 
 export default combineReducers({
   images,
@@ -12,4 +13,5 @@ export default combineReducers({
   results,
   auth,
   userImages,
+  userInfo,
 });
