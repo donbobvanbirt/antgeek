@@ -5,6 +5,8 @@ import { Button, Form, Image, Container, Loader, Header, Label, Comment, Icon, M
 import moment from 'moment';
 import lodash from 'lodash';
 
+import IdLabel from './IdLabel';
+
 import { getCurrentImage, postComment, addTags, likePost, unlikePost } from '../actions/PostActions';
 
 class ImageDetail extends Component {
@@ -54,6 +56,10 @@ class ImageDetail extends Component {
     this.setState({ newTags: '', tagModel: false });
   }
 
+  submitNewId = (newVal) => {
+    console.log('newVal', newVal);
+  }
+
   addLike = () => {
     // console.log('liked!', id);
     this.props.likePost(this.props.params.id);
@@ -82,9 +88,12 @@ class ImageDetail extends Component {
     let content = (<Loader active inline="centered" />);
     let id;
     let description;
-    let genus = <Label size="small" as="a">Add Genus</Label>;;
-    let species = <Label size="small" as="a">Add Species</Label>;
-    let commonName = <Label size="small" as="a">Add Common Name</Label>;
+    // let genus = <IdLabel clickAction={() => this.internalLink('/signin')} content="Add Genus" />;
+    // let species = <IdLabel clickAction={() => this.internalLink('/signin')} content="Add Species" />;
+    // let commonName = <IdLabel clickAction={() => this.internalLink('/signin')} content="Add Common Name" />;
+    let genus = <Label size="small" onClick={() => this.internalLink('/signin')} as="a">Add Genus</Label>;
+    let species = <Label size="small" onClick={() => this.internalLink('/signin')} as="a">Add Species</Label>;
+    let commonName = <Label size="small" onClick={() => this.internalLink('/signin')} as="a">Add Common Name</Label>;
     let url;
     let timestamp;
     let tags;
@@ -112,15 +121,6 @@ class ImageDetail extends Component {
       // likes = Object.values(imageObj.likes).join();
       likes = imageObj.likes.map(like => (Object.values(like).join('')));
       // console.log('likes', likes);
-      if (imageObj.genus) {
-        genus = <a onClick={() => this.clickTag(imageObj.genus)}>{imageObj.genus}</a>;
-      }
-      if (imageObj.species) {
-        species = <a onClick={() => this.clickTag(imageObj.species)}>{imageObj.species}</a>;
-      }
-      if (imageObj.commonName) {
-        commonName = <a onClick={() => this.clickTag(imageObj.commonName)}>{imageObj.commonName}</a>;
-      }
 
       tags = imageObj.tags.map((tag, i) => {
         if (tag) {
@@ -161,6 +161,12 @@ class ImageDetail extends Component {
         tagButton = (
           <Label color="black" as="a" onClick={this.openTagModel}>Add Tags</Label>
         );
+        // genus = <Label size="small" as="a">Add Genus</Label>;
+        // species = <Label size="small" as="a">Add Species</Label>;
+        // commonName = <Label size="small" as="a">Add Common Name</Label>;
+        genus = <IdLabel content="Genus" id="genus" url={url} submitAction={this.submitNewId} />;
+        species = <IdLabel content="Species" id="species" url={url} submitAction={this.submitNewId} />;
+        commonName = <IdLabel content="Common Name" id="commonName" url={url} submitAction={this.submitNewId} />;
         const alreadyLiked = _.some(likes, like => (like === this.props.user.uid));
         if (alreadyLiked) {
           likeButton = (
@@ -171,6 +177,16 @@ class ImageDetail extends Component {
             <Icon size="big" link name="empty heart" onClick={() => this.addLike()} />
           );
         }
+      }
+
+      if (imageObj.genus) {
+        genus = <a onClick={() => this.clickTag(imageObj.genus)}>{imageObj.genus}</a>;
+      }
+      if (imageObj.species) {
+        species = <a onClick={() => this.clickTag(imageObj.species)}>{imageObj.species}</a>;
+      }
+      if (imageObj.commonName) {
+        commonName = <a onClick={() => this.clickTag(imageObj.commonName)}>{imageObj.commonName}</a>;
       }
 
       content = (
@@ -224,9 +240,8 @@ class ImageDetail extends Component {
               <Image wrapped size="medium" src={url} />
               <Modal.Description>
                 <Header>Enter tags separated by commas</Header>
-                <p>If you know the species or commons names enter them here:</p>
                 <Form onSubmit={this.submitNewTags}>
-                  <Form.TextArea placeholder="Camponotus, Carpenter ant, worker, queen, etc" name="newTags" value={newTags} onChange={this.handleChange} rows="3" />
+                  <Form.TextArea name="newTags" value={newTags} onChange={this.handleChange} rows="3" />
                   <Button>Submit</Button>
                 </Form>
               </Modal.Description>
