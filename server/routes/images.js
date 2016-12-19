@@ -68,6 +68,7 @@ router.put('/unlike/:id/', authMiddleware, (req, res) => {
 // GET IMAGES BY USER ID
 router.get('/user/:user', (req, res) => {
   Image.find({ 'user.user_id': req.params.user })
+  .sort({ timestamp: -1 })
   .then(results => res.send(results))
   .catch(err => res.status(400).send(err));
 });
@@ -75,6 +76,7 @@ router.get('/user/:user', (req, res) => {
 // GET LIKED IMAGES
 router.get('/liked/:userId', (req, res) => {
   Image.find({ likes: req.params.userId })
+  .sort({ timestamp: -1 })
   .then(results => res.send(results))
   .catch(err => res.status(400).send(err));
 });
@@ -82,6 +84,7 @@ router.get('/liked/:userId', (req, res) => {
 // GET SEARCH RESULTS
 router.get('/search/:searchQuery', (req, res) => {
   Image.find({ tags: req.params.searchQuery })
+  .sort({ timestamp: -1 })
   .then(results => res.send(results))
   .catch(err => res.status(400).send(err));
 });
@@ -118,7 +121,7 @@ router.post('/', authMiddleware, upload.single('myfile'), (req, res) => {
 
 // GET ALL IMAGES
 router.get('/', (req, res) => {
-  Image.find().sort({timestamp: -1})
+  Image.find().sort({ timestamp: -1 })
   .then(images => res.send(images))
   .catch(err => res.status(400).send(err));
 });
