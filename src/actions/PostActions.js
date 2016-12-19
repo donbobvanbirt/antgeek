@@ -7,12 +7,12 @@ export function upload(file, details) {
     const data = new FormData();
     data.append('myfile', file);
     // console.log('data:', data);
-    const { description, title, tags } = details;
+    const { description, title, tags, genus, species, commonName } = details;
     // const token = firebaseAuth.currentUser.getToken();
     // console.log('token:', token);
     firebaseAuth.currentUser.getToken()
       .then((token) => {
-        return axios.post(`/api/images?description=${description}&title=${title}&tags=${tags}`, data, {
+        return axios.post(`/api/images?description=${description}&title=${title}&tags=${tags}&genus=${genus}&species=${species}&commonName=${commonName}`, data, {
           headers: {
             'x-auth-token': token,
           },

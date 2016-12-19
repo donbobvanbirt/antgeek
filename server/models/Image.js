@@ -44,6 +44,7 @@ imageSchema.statics.upload = function (fileObj, details, user) {
   return new Promise((resolve, reject) => {
     const { buffer, originalname } = fileObj;
     const { description, title, tags, genus, species, commonName } = details;
+    // console.log('details:', details);
     const Key = uuid() + path.extname(originalname);
 
     const params = {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { Button, Form, Image, Container, Loader, Header, Label, Comment, Icon, Modal } from 'semantic-ui-react';
+import { Button, Form, Image, Container, Loader, Header, Label, Comment, Icon, Modal, List } from 'semantic-ui-react';
 import moment from 'moment';
 import lodash from 'lodash';
 
@@ -82,7 +82,9 @@ class ImageDetail extends Component {
     let content = (<Loader active inline="centered" />);
     let id;
     let description;
-    let title;
+    let genus = <Label size="small" as="a">Add Genus</Label>;;
+    let species = <Label size="small" as="a">Add Species</Label>;
+    let commonName = <Label size="small" as="a">Add Common Name</Label>;
     let url;
     let timestamp;
     let tags;
@@ -101,7 +103,6 @@ class ImageDetail extends Component {
       const imageObj = this.props.currentImage[0];
       id = imageObj._id;
       description = imageObj.description;
-      title = imageObj.title;
       url = imageObj.url;
       timestamp = imageObj.timestamp;
       userName = imageObj.user.name;
@@ -111,6 +112,16 @@ class ImageDetail extends Component {
       // likes = Object.values(imageObj.likes).join();
       likes = imageObj.likes.map(like => (Object.values(like).join('')));
       // console.log('likes', likes);
+      if (imageObj.genus) {
+        genus = <a>{imageObj.genus}</a>;
+      }
+      if (imageObj.species) {
+        species = <a>{imageObj.species}</a>;
+      }
+      if (imageObj.commonName) {
+        commonName = <a>{imageObj.commonName}</a>;
+      }
+
       tags = imageObj.tags.map((tag, i) => {
         if (tag) {
           return (
@@ -165,7 +176,7 @@ class ImageDetail extends Component {
       content = (
         <div>
           <Header as="h1">
-            {title}
+            {/* {title} */}
             <Header.Subheader>
               Uploaded by {userName} on {moment(timestamp).format('MMMM Do YYYY')}
             </Header.Subheader>
@@ -184,6 +195,12 @@ class ImageDetail extends Component {
               </Comment.Content>
             </Comment>
           </Comment.Group>
+          <br />
+          <List>
+            <List.Item><b>Genus:</b> {genus}</List.Item>
+            <List.Item><b>Species:</b> {species}</List.Item>
+            <List.Item><b>Common Name:</b> {commonName}</List.Item>
+          </List>
 
           <br />
           <p>{description}</p>
@@ -202,7 +219,7 @@ class ImageDetail extends Component {
           {commentForm}
 
           <Modal open={tagModel} onClose={this.closeTagModel}>
-            <Modal.Header>Add Tags to {title}</Modal.Header>
+            <Modal.Header>Add Tags</Modal.Header>
             <Modal.Content image>
               <Image wrapped size="medium" src={url} />
               <Modal.Description>
