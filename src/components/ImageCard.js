@@ -13,12 +13,20 @@ export default class ImageCard extends Component {
   render() {
     const { url, _id, tags, description, comments, timestamp, user, likes, genus, species } = this.props.pic;
     // console.log('this.props.pic:', this.props.pic);
-    // let header = 
+    let header = '';
+    let image = <Image src={url} />;
+    const hasId = genus && species;
+    if (genus || species) {
+      header = genus + ' ' + species;
+    }
+    if (!hasId) {
+      image = <Image src={url} label={{ color: 'blue', content: 'ID Needed', ribbon: true }}/>
+    }
     return (
       <Card onClick={() => this.selectPic(_id)}>
-        <Image src={url} />
+        {image}
         <Card.Content>
-          <Card.Header>{title}</Card.Header>
+          <Card.Header>{header}</Card.Header>
           <Card.Meta>{user.name}</Card.Meta>
           <Card.Description>{moment(timestamp).fromNow()}</Card.Description>
         </Card.Content>
