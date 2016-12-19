@@ -32,24 +32,23 @@ export default class FileUpload extends Component {
 
   _onSubmit = (e) => {
     e.preventDefault();
-    const { file, description, tags, title, genus, species, commonName } = this.state;
+    const { file, description, tags, genus, species, commonName } = this.state;
+    if (!file) { return; }
     let tagList = [];
     const detailObj = {
       description: description || '',
-      title: title || '',
       genus: genus || '',
       species: species || '',
       commonName: commonName || '',
       tags: tags || '',
     };
-    console.log('detailObj:', detailObj);
+    // console.log('detailObj:', detailObj);
     this.props.submitFile(file, detailObj);
     // this.close();
     this.setState({
       file: '',
       description: '',
       tags: '',
-      title: '',
       open: false,
     })
   }

@@ -22,13 +22,19 @@ export default class ImageCard extends Component {
     if (!hasId) {
       image = <Image src={url} label={{ color: 'blue', content: 'ID Needed', ribbon: true }}/>
     }
+    const shortDescription = description.length < 85 ? description : description.slice(0, 80) + '...';
+
     return (
       <Card onClick={() => this.selectPic(_id)}>
         {image}
         <Card.Content>
           <Card.Header>{header}</Card.Header>
           <Card.Meta>{user.name}</Card.Meta>
-          <Card.Description>{moment(timestamp).fromNow()}</Card.Description>
+          <Card.Description>
+            <Icon name="wait" />
+            {moment(timestamp).fromNow()}
+          </Card.Description>
+          <Card.Description>{shortDescription}</Card.Description>
         </Card.Content>
         <Card.Content extra>
           <Icon name="comments" />

@@ -113,13 +113,13 @@ class ImageDetail extends Component {
       likes = imageObj.likes.map(like => (Object.values(like).join('')));
       // console.log('likes', likes);
       if (imageObj.genus) {
-        genus = <a>{imageObj.genus}</a>;
+        genus = <a onClick={() => this.clickTag(imageObj.genus)}>{imageObj.genus}</a>;
       }
       if (imageObj.species) {
-        species = <a>{imageObj.species}</a>;
+        species = <a onClick={() => this.clickTag(imageObj.species)}>{imageObj.species}</a>;
       }
       if (imageObj.commonName) {
-        commonName = <a>{imageObj.commonName}</a>;
+        commonName = <a onClick={() => this.clickTag(imageObj.commonName)}>{imageObj.commonName}</a>;
       }
 
       tags = imageObj.tags.map((tag, i) => {
