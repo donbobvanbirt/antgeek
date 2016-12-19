@@ -13,6 +13,9 @@ const imageSchema = new mongoose.Schema({
   name: { type: String, required: true },
   Key: { type: String, required: true },
   title: { type: String },
+  genus: { type: String },
+  species: { type: String },
+  commonName: { type: String },
   description: { type: String },
   tags: { type: Array },
   timestamp: { type: Date, required: true, default: Date.now },
@@ -40,8 +43,9 @@ const imageSchema = new mongoose.Schema({
 imageSchema.statics.upload = function (fileObj, details, user) {
   return new Promise((resolve, reject) => {
     const { buffer, originalname } = fileObj;
-    const { description, title, tags } = details;
+    const { description, title, tags, genus, species, commonName } = details;
     const Key = uuid() + path.extname(originalname);
+
     const params = {
       Bucket,
       Key,
@@ -62,14 +66,28 @@ imageSchema.statics.upload = function (fileObj, details, user) {
         email,
       };
 
+      let tagList = tags.split(',').map(tag => (tag.trim().toLowerCase()));
+      if (genus) {
+        tagList = tagList.concat(genus);
+      }
+      if (species) {
+        tagList = tagList.concat(species);
+      }
+      if (commonName) {
+        tagList = tagList.concat(commonName);
+      }
+
       this.create({
         url,
         Key,
         name: originalname,
         description,
         title,
+        genus,
+        species,
+        commonName,
         user: userObj,
-        tags: tags.split(',').map(tag => (tag.trim().toLowerCase())),
+        tags: tagList,
       },
       (err, imageDoc) => {
         if (err) return reject(err);

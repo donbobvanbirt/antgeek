@@ -32,11 +32,14 @@ export default class FileUpload extends Component {
 
   _onSubmit = (e) => {
     e.preventDefault();
-    const { file, description, tags, title } = this.state;
+    const { file, description, tags, title, genus, species, commonName } = this.state;
     let tagList = [];
     const detailObj = {
       description: description || '',
       title: title || '',
+      genus: genus || '',
+      species: species || '',
+      commonName: commonName || '',
       tags: tags || '',
     };
     console.log('detailObj:', detailObj);
@@ -68,8 +71,10 @@ export default class FileUpload extends Component {
           <Modal.Content>
             <Form>
               <Form.Input type="file" label="Image File" onChange={this._onFileSelect} required />
-              <Form.Input type="text" label="Title" name="title" onChange={this._onType} />
-              <Form.Input type="text" label="Tags - separated by commas" name="tags" placeholder="If you know the scientific or common names enter them here" onChange={this._onType} />
+              <Form.Input type="text" label="Genus" name="genus" onChange={this._onType} placeholder="Leave blank if you don't know" />
+              <Form.Input type="text" label="Species" name="species" onChange={this._onType} placeholder="Leave blank if you don't know" />
+              <Form.Input type="text" label="Common Name" name="commonName" onChange={this._onType} placeholder="Leave blank if you don't know" />
+              <Form.Input type="text" label="Tags - separated by commas" name="tags" placeholder="Add any other info here" onChange={this._onType} />
               <Form.TextArea label="Description" name="description" placeholder="Description" rows="3" onChange={this._onType} />
             </Form>
             {/* <form onSubmit={this._onSubmit}>
