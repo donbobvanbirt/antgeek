@@ -11,8 +11,9 @@ export default class ImageCard extends Component {
   }
 
   render() {
-    const { url, _id, title, tags, description, comments, timestamp, user, likes } = this.props.pic;
+    const { url, _id, tags, description, comments, timestamp, user, likes, genus, species } = this.props.pic;
     // console.log('this.props.pic:', this.props.pic);
+    // let header = 
     return (
       <Card onClick={() => this.selectPic(_id)}>
         <Image src={url} />

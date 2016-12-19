@@ -12,7 +12,6 @@ const imageSchema = new mongoose.Schema({
   url: { type: String, required: true },
   name: { type: String, required: true },
   Key: { type: String, required: true },
-  title: { type: String },
   genus: { type: String },
   species: { type: String },
   commonName: { type: String },
@@ -43,7 +42,7 @@ const imageSchema = new mongoose.Schema({
 imageSchema.statics.upload = function (fileObj, details, user) {
   return new Promise((resolve, reject) => {
     const { buffer, originalname } = fileObj;
-    const { description, title, tags, genus, species, commonName } = details;
+    const { description, tags, genus, species, commonName } = details;
     // console.log('details:', details);
     const Key = uuid() + path.extname(originalname);
 
@@ -83,7 +82,6 @@ imageSchema.statics.upload = function (fileObj, details, user) {
         Key,
         name: originalname,
         description,
-        title,
         genus,
         species,
         commonName,
