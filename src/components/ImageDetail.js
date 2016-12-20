@@ -7,7 +7,7 @@ import lodash from 'lodash';
 
 import IdLabel from './IdLabel';
 
-import { getCurrentImage, postComment, addTags, likePost, unlikePost } from '../actions/PostActions';
+import { getCurrentImage, postComment, addTags, likePost, unlikePost, addId } from '../actions/PostActions';
 
 class ImageDetail extends Component {
   constructor() {
@@ -58,6 +58,7 @@ class ImageDetail extends Component {
 
   submitNewId = (newVal) => {
     console.log('newVal', newVal);
+    this.props.addId(this.props.params.id, newVal);
   }
 
   addLike = () => {
@@ -274,6 +275,9 @@ const mapDispatchToProps = dispatch => ({
   },
   addTags(id, tags) {
     dispatch(addTags(id, tags));
+  },
+  addId(imageId, newId) {
+    dispatch(addId(imageId, newId));
   },
   likePost(id) {
     dispatch(likePost(id));

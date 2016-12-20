@@ -119,6 +119,23 @@ export function addTags(id, tags) {
   };
 }
 
+export function addId(imageId, newId) {
+  return (dispatch) => {
+    firebaseAuth.currentUser.getToken()
+      .then((token) => {
+        return axios.post(`/api/images/id/${imageId}`, newId, {
+          headers: {
+            'x-auth-token': token,
+          },
+        });
+      })
+      .then((res) => {
+        dispatch(addedId(res.data));
+      })
+      .catch(console.error);
+  };
+}
+
 export function getSearchResults(query) {
   return (dispatch) => {
     axios.get(`/api/images/search/${query}`)
@@ -190,6 +207,13 @@ export function gotCurrentImage(image) {
 export function addedTags(data) {
   return {
     type: 'ADDED_TAGS',
+    payload: data,
+  };
+}
+
+export function addedId(data) {
+  return {
+    type: 'ADDED_ID',
     payload: data,
   };
 }

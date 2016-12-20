@@ -31,7 +31,6 @@ router.post('/comment/:id', authMiddleware, (req, res) => {
 
 // ADD TAGS
 router.post('/tags/:id/', authMiddleware, (req, res) => {
-  // console.log('req.body.newTags:', req.body.newTags);
   Image.findOneAndUpdate(
     { _id: req.params.id },
     { $pushAll: { tags: req.body.newTags } },
@@ -41,9 +40,20 @@ router.post('/tags/:id/', authMiddleware, (req, res) => {
   .catch(err => res.status(400).send(err));
 });
 
+// ADD ID
+router.post('/id/:imageId/', authMiddleware, (req, res) => {
+  const { id, value } = req.body;
+  Image.findOneAndUpdate(
+    { _id: req.params.imageId },
+    { $set: { [id]: value } },
+    { new: true }
+  )
+  .then(updatedImage => res.send(updatedImage))
+  .catch(err => res.status(400).send(err));
+});
+
 // ADD LIKE
 router.put('/like/:id/', authMiddleware, (req, res) => {
-  // console.log('req.user.user_id:', req.user.user_id);
   Image.findOneAndUpdate(
     { _id: req.params.id },
     { $push: { likes: req.user.user_id } },

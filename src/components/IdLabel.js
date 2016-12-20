@@ -27,9 +27,10 @@ export default class IdLabel extends Component {
     const { inputVal } = this.state;
     e.preventDefault();
     const idObj = {
-      [id]: inputVal,
-    }
-    submitAction(idObj)
+      id: id,
+      value: inputVal,
+    };
+    submitAction(idObj);
     this.setState({ inputVal: '', open: false });
   }
 
