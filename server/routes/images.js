@@ -99,6 +99,13 @@ router.get('/search/:searchQuery', (req, res) => {
   .catch(err => res.status(400).send(err));
 });
 
+// DELETE IMAGE
+router.put('/delete/:id', authMiddleware, (req, res) => {
+  Image.remove({ _id: req.params.id })
+  .then(res.send('image deleted'))
+  .catch(err => res.status(400).send(err));
+});
+
 // UPDATE IMAGE
 router.put('/:id', (req, res) => {
   Image.findOneAndUpdate(
@@ -106,13 +113,6 @@ router.put('/:id', (req, res) => {
     { $set: req.body },
     { new: true })
   .then(updatedImage => res.send(updatedImage))
-  .catch(err => res.status(400).send(err));
-});
-
-// DELETE IMAGE
-router.delete('/:id', (req, res) => {
-  Image.remove({ _id: req.params.id })
-  .then(res.send('image deleted'))
   .catch(err => res.status(400).send(err));
 });
 

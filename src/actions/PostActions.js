@@ -82,6 +82,26 @@ export function updateImage(id, obj) {
   };
 }
 
+export function removeImage(id) {
+  return (dispatch) => {
+    firebaseAuth.currentUser.getToken()
+      .then((token) => {
+        // console.log('token in actions:', token);
+        return axios.put(`/api/images/delete/${id}`, null, {
+          headers: {
+            'x-auth-token': token,
+          },
+        });
+      })
+      .then((res) => {
+        getImages();
+        // console.log('res.data:', res.data);
+        // dispatch(updatedImage(res.data));
+      })
+      .catch(console.error);
+  };
+}
+
 export function likePost(postId) {
   return (dispatch) => {
     firebaseAuth.currentUser.getToken()
@@ -94,7 +114,7 @@ export function likePost(postId) {
         });
       })
       .then((res) => {
-        console.log('res:', res);
+        // console.log('res:', res);
         dispatch(addedLike(res.data));
       })
       .catch(console.error);
@@ -105,7 +125,7 @@ export function unlikePost(postId) {
   return (dispatch) => {
     firebaseAuth.currentUser.getToken()
       .then((token) => {
-        console.log('token in actions:', token);
+        // console.log('token in actions:', token);
         return axios.put(`/api/images/unlike/${postId}`, null, {
           headers: {
             'x-auth-token': token,

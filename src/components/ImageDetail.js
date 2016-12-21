@@ -6,8 +6,18 @@ import moment from 'moment';
 import lodash from 'lodash';
 
 import IdLabel from './IdLabel';
+// import EditImage from './EditImage';
+import DeleteImage from './DeleteImage';
 
-import { getCurrentImage, postComment, addTags, likePost, unlikePost, addId } from '../actions/PostActions';
+import {
+  getCurrentImage,
+  postComment,
+  addTags,
+  likePost,
+  unlikePost,
+  addId,
+  removeImage,
+ } from '../actions/PostActions';
 
 class ImageDetail extends Component {
   constructor() {
@@ -75,6 +85,11 @@ class ImageDetail extends Component {
     browserHistory.push(`/search/${search}`)
   }
 
+  deleteImage = () => {
+    this.props.removeImage(this.props.params.id);
+    browserHistory.push('/');
+  }
+
   internalLink = (path) => {
     browserHistory.push(path);
     // console.log('path:', path);
@@ -107,6 +122,7 @@ class ImageDetail extends Component {
     let likeButton = <Icon size="big" link name="empty heart" onClick={() => this.internalLink('/signin')} />;
     let likeCount = '';
     let likes;
+    let editButtons = '';
 
     if (this.props.currentImage) {
       // console.log('this.props.currentImage:', this.props.currentImage[0]);
@@ -159,15 +175,15 @@ class ImageDetail extends Component {
             <Button icon="comment outline" content="Submit" primary />
           </Form>
         );
+
         tagButton = (
           <Label color="black" as="a" onClick={this.openTagModel}>Add Tags</Label>
         );
-        // genus = <Label size="small" as="a">Add Genus</Label>;
-        // species = <Label size="small" as="a">Add Species</Label>;
-        // commonName = <Label size="small" as="a">Add Common Name</Label>;
+
         genus = <IdLabel content="Genus" id="genus" url={url} submitAction={this.submitNewId} />;
         species = <IdLabel content="Species" id="species" url={url} submitAction={this.submitNewId} />;
         commonName = <IdLabel content="Common Name" id="commonName" url={url} submitAction={this.submitNewId} />;
+
         const alreadyLiked = _.some(likes, like => (like === this.props.user.uid));
         if (alreadyLiked) {
           likeButton = (
@@ -177,6 +193,10 @@ class ImageDetail extends Component {
           likeButton = (
             <Icon size="big" link name="empty heart" onClick={() => this.addLike()} />
           );
+        }
+
+        if (userId === this.props.user.uid) {
+          editButtons = <DeleteImage deleteImage={this.deleteImage} />;
         }
       }
 
@@ -234,6 +254,9 @@ class ImageDetail extends Component {
           </Comment.Group>
 
           {commentForm}
+          <br />
+          {editButtons}
+          {/* <DeleteImage /> */}
 
           <Modal open={tagModel} onClose={this.closeTagModel}>
             <Modal.Header>Add Tags</Modal.Header>
@@ -284,6 +307,9 @@ const mapDispatchToProps = dispatch => ({
   },
   unlikePost(id) {
     dispatch(unlikePost(id));
+  },
+  removeImage(id) {
+    dispatch(removeImage(id));
   },
 });
 

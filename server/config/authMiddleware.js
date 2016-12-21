@@ -4,7 +4,7 @@ const admin = require('./firebaseAdmin');
 
 module.exports = function(req, res, next) {
   let token = req.headers['x-auth-token'];
-  // console.log('token:', token);
+  // console.log('req.headers:', req.headers);
   admin.auth().verifyIdToken(token || '')
     .then(() => {
       req.user = JSON.parse(atob(token.split('.')[1]));
