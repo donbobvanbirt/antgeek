@@ -64,6 +64,24 @@ export function postComment(id, comment) {
   };
 }
 
+export function updateImage(id, obj) {
+  return (dispatch) => {
+    firebaseAuth.currentUser.getToken()
+      .then((token) => {
+        return axios.post(`/api/images/${id}`, obj, {
+          headers: {
+            'x-auth-token': token,
+          },
+        });
+      })
+      .then((res) => {
+        // console.log('res:', res);
+        dispatch(updatedImage(res.data));
+      })
+      .catch(console.error);
+  };
+}
+
 export function likePost(postId) {
   return (dispatch) => {
     firebaseAuth.currentUser.getToken()
@@ -186,6 +204,13 @@ export function uploadSuccess(image) {
 export function addedComment(data) {
   return {
     type: 'ADDED_COMMENT',
+    payload: data,
+  };
+}
+
+export function updatedImage(data) {
+  return {
+    type: 'UPDATED_IMAGE',
     payload: data,
   };
 }
