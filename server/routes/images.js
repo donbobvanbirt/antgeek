@@ -101,7 +101,7 @@ router.get('/search/:searchQuery', (req, res) => {
 
 // DELETE IMAGE
 router.put('/delete/:id', authMiddleware, (req, res) => {
-  Image.remove({ _id: req.params.id })
+  Image.remove({ _id: req.params.id, 'user.user_id': req.user.user_id })
   .then(res.send('image deleted'))
   .catch(err => res.status(400).send(err));
 });

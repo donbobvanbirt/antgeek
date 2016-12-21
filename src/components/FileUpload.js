@@ -50,6 +50,8 @@ export default class FileUpload extends Component {
       description: '',
       tags: '',
       open: false,
+      file: '',
+      imagePreviewUrl: '',
     })
   }
 
