@@ -68,7 +68,7 @@ export function updateImage(id, obj) {
   return (dispatch) => {
     firebaseAuth.currentUser.getToken()
       .then((token) => {
-        return axios.post(`/api/images/${id}`, obj, {
+        return axios.put(`/api/images/${id}`, obj, {
           headers: {
             'x-auth-token': token,
           },
@@ -95,8 +95,6 @@ export function removeImage(id) {
       })
       .then((res) => {
         getImages();
-        // console.log('res.data:', res.data);
-        // dispatch(updatedImage(res.data));
       })
       .catch(console.error);
   };

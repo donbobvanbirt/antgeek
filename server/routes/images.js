@@ -107,9 +107,9 @@ router.put('/delete/:id', authMiddleware, (req, res) => {
 });
 
 // UPDATE IMAGE
-router.put('/:id', (req, res) => {
+router.put('/:id', authMiddleware, (req, res) => {
   Image.findOneAndUpdate(
-    { _id: req.params.id },
+    { _id: req.params.id, 'user.user_id': req.user.user_id },
     { $set: req.body },
     { new: true })
   .then(updatedImage => res.send(updatedImage))

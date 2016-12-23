@@ -46,7 +46,7 @@ export default class DeleteImage extends Component {
     const { open } = this.state;
 
     return (
-      <div>
+      <div className="inline">
         <Button size="mini" color="green" onClick={this.openModel}><Icon name="edit" /></Button>
         <Modal open={open} onClose={this.closeModel}>
           <Header content="Edit Image Details" />
@@ -54,10 +54,10 @@ export default class DeleteImage extends Component {
             <Image wrapped size="medium" src={url} />
             <Modal.Description>
               <Form>
-                <Form.Input type="text" defaultValue={genus} label="Genus" name="genus" onChange={this._onType} placeholder="Leave blank if you don't know" />
-                <Form.Input type="text" defaultValue={species} label="Species" name="species" onChange={this._onType} placeholder="Leave blank if you don't know" />
-                <Form.Input type="text" defaultValue={commonName} label="Common Name" name="commonName" onChange={this._onType} placeholder="Leave blank if you don't know" />
-                <Form.TextArea defaultValue={description} label="Description" name="description" placeholder="Description" rows="3" onChange={this._onType} />
+                <Form.Input type="text" defaultValue={genus} label="Genus" name="genus" onChange={this._onType} placeholder="Add Genus" />
+                <Form.Input type="text" defaultValue={species} label="Species" name="species" onChange={this._onType} placeholder="Add Species" />
+                <Form.Input type="text" defaultValue={commonName} label="Common Name" name="commonName" onChange={this._onType} placeholder="Add Common Name" />
+                <Form.TextArea defaultValue={description} label="Description" name="description" placeholder="Add Description" rows="3" onChange={this._onType} />
               </Form>
               <br />
               <Button onClick={this.closeModel} floated="left">Cancel</Button>

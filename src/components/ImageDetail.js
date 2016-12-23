@@ -18,6 +18,7 @@ import {
   unlikePost,
   addId,
   removeImage,
+  updateImage,
  } from '../actions/PostActions';
 
 class ImageDetail extends Component {
@@ -91,7 +92,8 @@ class ImageDetail extends Component {
   }
 
   editImage = (editImageObj) => {
-    console.log('editImageObj:', editImageObj);
+    // console.log('editImageObj:', editImageObj);
+    this.props.updateImage(this.props.params.id, editImageObj);
   }
 
   internalLink = (path) => {
@@ -202,7 +204,6 @@ class ImageDetail extends Component {
         if (userId === this.props.user.uid) {
           editButtons = (
             <div>
-              <DeleteImage deleteImage={this.deleteImage} />
               <EditImage
                 url={url}
                 genus={imageObj.genus}
@@ -211,6 +212,7 @@ class ImageDetail extends Component {
                 description={description}
                 submit={this.editImage}
               />
+              <DeleteImage deleteImage={this.deleteImage} />
             </div>
           );
         }
@@ -249,14 +251,15 @@ class ImageDetail extends Component {
             </Comment>
           </Comment.Group>
           <br />
+          <p>{description}</p>
+          <br />
+
           <List>
             <List.Item><b>Genus:</b> {genus}</List.Item>
             <List.Item><b>Species:</b> {species}</List.Item>
             <List.Item><b>Common Name:</b> {commonName}</List.Item>
           </List>
 
-          <br />
-          <p>{description}</p>
           <Header as="h3">Tags:</Header>
           {tags} {tagButton}
           <br />
@@ -326,6 +329,9 @@ const mapDispatchToProps = dispatch => ({
   },
   removeImage(id) {
     dispatch(removeImage(id));
+  },
+  updateImage(id, obj) {
+    dispatch(updateImage(id, obj));
   },
 });
 
