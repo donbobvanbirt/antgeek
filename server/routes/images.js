@@ -40,6 +40,17 @@ router.post('/tags/:id/', authMiddleware, (req, res) => {
   .catch(err => res.status(400).send(err));
 });
 
+// REMOVE TAG
+router.put('/untag/:id/', authMiddleware, (req, res) => {
+  Image.findOneAndUpdate(
+    { _id: req.params.id, 'user.user_id': req.user.user_id },
+    { $pull: { tags: req.body.tag } },
+    { new: true }
+  )
+  .then(updatedImage => res.send(updatedImage))
+  .catch(err => res.status(400).send(err));
+});
+
 // ADD ID
 router.post('/id/:imageId/', authMiddleware, (req, res) => {
   const { id, value } = req.body;

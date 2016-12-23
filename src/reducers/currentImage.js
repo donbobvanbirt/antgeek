@@ -10,6 +10,7 @@ export default function currentImage(state = null, action) {
     case 'ADDED_COMMENT':
     case 'UPDATED_IMAGE':
     case 'ADDED_TAGS':
+    case 'REMOVED_TAG':
     case 'ADDED_ID':
     case 'ADDED_LIKE':
     case 'REMOVED_LIKE':

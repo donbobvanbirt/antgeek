@@ -155,6 +155,23 @@ export function addTags(id, tags) {
   };
 }
 
+export function removeTag(id, tag) {
+  return (dispatch) => {
+    firebaseAuth.currentUser.getToken()
+      .then((token) => {
+        return axios.put(`/api/images/untag/${id}`, tag, {
+          headers: {
+            'x-auth-token': token,
+          },
+        });
+      })
+      .then((res) => {
+        dispatch(removedTag(res.data));
+      })
+      .catch(console.error);
+  };
+}
+
 export function addId(imageId, newId) {
   return (dispatch) => {
     firebaseAuth.currentUser.getToken()
@@ -250,6 +267,13 @@ export function gotCurrentImage(image) {
 export function addedTags(data) {
   return {
     type: 'ADDED_TAGS',
+    payload: data,
+  };
+}
+
+export function removedTag(data) {
+  return {
+    type: 'REMOVED_TAG',
     payload: data,
   };
 }

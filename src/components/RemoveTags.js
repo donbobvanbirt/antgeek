@@ -24,6 +24,11 @@ export default class RemoveTags extends Component {
   //   });
   // }
 
+  // submitTag = (tag) => {
+  //   const tagObj = { tag };
+  //   this.props.submit(tagObj);
+  // }
+
   closeModel = () => {
     this.setState({ open: false });
   }
@@ -38,7 +43,7 @@ export default class RemoveTags extends Component {
   // }
 
   render() {
-    const { tags, url } = this.props;
+    const { tags, url, submit } = this.props;
     const { open } = this.state;
 
     // const tagList = tags.map((tag, i) => {
@@ -61,7 +66,7 @@ export default class RemoveTags extends Component {
                 <Table.Row key={i}>
                   <Table.Cell singleLine>{tag}</Table.Cell>
                   <Table.Cell singleLine>
-                    <Button icon="remove" color="red" onClick={this.openModel} />
+                    <Button icon="remove" color="red" onClick={() => submit(tag)} />
                   </Table.Cell>
                 </Table.Row>
               );
@@ -83,6 +88,7 @@ export default class RemoveTags extends Component {
             </Modal.Description>
           </Modal.Content>
           <Modal.Actions>
+            <Button onClick={this.closeModel}>Close</Button>
           </Modal.Actions>
         </Modal>
       </div>

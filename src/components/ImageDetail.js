@@ -14,6 +14,7 @@ import {
   getCurrentImage,
   postComment,
   addTags,
+  removeTag,
   likePost,
   unlikePost,
   addId,
@@ -66,6 +67,10 @@ class ImageDetail extends Component {
     };
     this.props.addTags(this.props.params.id, tagObj);
     this.setState({ newTags: '', tagModel: false });
+  }
+
+  deleteTag = (tag) => {
+    this.props.deleteTags(this.props.params.id, { tag });
   }
 
   submitNewId = (newVal) => {
@@ -212,15 +217,12 @@ class ImageDetail extends Component {
           editDescription = (
             <EditDescription
               url={url}
-              genus={imageObj.genus}
-              species={imageObj.species}
-              commonName={imageObj.commonName}
               description={description}
               submit={this.editImage}
               tags={imageObj.tags}
             />
           );
-          removeTags = <RemoveTags url={url} tags={imageObj.tags} />;
+          removeTags = <RemoveTags url={url} submit={this.deleteTag} tags={imageObj.tags} />;
         }
       }
 
@@ -324,6 +326,9 @@ const mapDispatchToProps = dispatch => ({
   },
   addTags(id, tags) {
     dispatch(addTags(id, tags));
+  },
+  deleteTags(id, tag) {
+    dispatch(removeTag(id, tag));
   },
   addId(imageId, newId) {
     dispatch(addId(imageId, newId));
