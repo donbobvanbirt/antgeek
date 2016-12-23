@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Modal, Header, Icon, Form, Image } from 'semantic-ui-react';
+import { Button, Modal, Header, Icon, Form, Image, Table } from 'semantic-ui-react';
 
-export default class DeleteImage extends Component {
+export default class EditImage extends Component {
   state = {
     open: false,
     genus: '',
@@ -42,21 +42,51 @@ export default class DeleteImage extends Component {
   }
 
   render() {
-    const { url, genus, species, commonName, description } = this.props;
+    const { url, genus, species, commonName, description, tags } = this.props;
     const { open } = this.state;
+
+    // const tagList = (
+    //   <Table basic="very" celled collapsing>
+    //     <Table.Header>
+    //       <Table.Row>
+    //         <Table.HeaderCell>Remove Tags:</Table.HeaderCell>
+    //         {/* <Table.HeaderCell></Table.HeaderCell> */}
+    //       </Table.Row>
+    //     </Table.Header>
+    //     <Table.Body>
+    //       {tags.map((tag, i) => {
+    //         if (tag) {
+    //           return (
+    //             <Table.Row key={i}>
+    //               <Table.Cell singleLine>{tag}</Table.Cell>
+    //               <Table.Cell singleLine><Button size="mini" color="red"><Icon name="remove" /></Button></Table.Cell>
+    //             </Table.Row>
+    //           );
+    //         }
+    //       })}
+    //     </Table.Body>
+    //   </Table>
+    // );
+
 
     return (
       <div className="inline">
-        <Button size="mini" color="green" onClick={this.openModel}><Icon name="edit" /></Button>
+        <Button size="mini" color="black" onClick={this.openModel}><Icon name="edit" /> Edit Description</Button>
         <Modal open={open} onClose={this.closeModel}>
-          <Header content="Edit Image Details" />
+          <Header content="Edit Description" />
           <Modal.Content image>
             <Image wrapped size="medium" src={url} />
             <Modal.Description>
+              {/* {tagList} */}
               <Form>
-                <Form.Input type="text" defaultValue={genus} label="Genus" name="genus" onChange={this._onType} placeholder="Add Genus" />
+                {/* <Table basic="very" celled collapsing>
+                  <Table.Body>
+                    {tagList}
+                  </Table.Body>
+                </Table> */}
+                {/* <Form.Input type="text" defaultValue={genus} label="Genus" name="genus" onChange={this._onType} placeholder="Add Genus" />
                 <Form.Input type="text" defaultValue={species} label="Species" name="species" onChange={this._onType} placeholder="Add Species" />
-                <Form.Input type="text" defaultValue={commonName} label="Common Name" name="commonName" onChange={this._onType} placeholder="Add Common Name" />
+                <Form.Input type="text" defaultValue={commonName} label="Common Name" name="commonName" onChange={this._onType} placeholder="Add Common Name" /> */}
                 <Form.TextArea defaultValue={description} label="Description" name="description" placeholder="Add Description" rows="3" onChange={this._onType} />
               </Form>
               <br />

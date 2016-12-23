@@ -6,9 +6,9 @@ import moment from 'moment';
 import lodash from 'lodash';
 
 import IdLabel from './IdLabel';
-// import EditImage from './EditImage';
 import DeleteImage from './DeleteImage';
-import EditImage from './EditImage';
+import EditDescription from './EditDescription';
+import RemoveTags from './RemoveTags';
 
 import {
   getCurrentImage,
@@ -129,6 +129,8 @@ class ImageDetail extends Component {
     let likeCount = '';
     let likes;
     let editButtons = '';
+    let editDescription = '';
+    let removeTags = '';
 
     if (this.props.currentImage) {
       // console.log('this.props.currentImage:', this.props.currentImage[0]);
@@ -204,17 +206,21 @@ class ImageDetail extends Component {
         if (userId === this.props.user.uid) {
           editButtons = (
             <div>
-              <EditImage
-                url={url}
-                genus={imageObj.genus}
-                species={imageObj.species}
-                commonName={imageObj.commonName}
-                description={description}
-                submit={this.editImage}
-              />
               <DeleteImage deleteImage={this.deleteImage} />
             </div>
           );
+          editDescription = (
+            <EditDescription
+              url={url}
+              genus={imageObj.genus}
+              species={imageObj.species}
+              commonName={imageObj.commonName}
+              description={description}
+              submit={this.editImage}
+              tags={imageObj.tags}
+            />
+          );
+          removeTags = <RemoveTags url={url} tags={imageObj.tags} />;
         }
       }
 
@@ -252,6 +258,7 @@ class ImageDetail extends Component {
           </Comment.Group>
           <br />
           <p>{description}</p>
+          {editDescription}
           <br />
 
           <List>
@@ -261,7 +268,7 @@ class ImageDetail extends Component {
           </List>
 
           <Header as="h3">Tags:</Header>
-          {tags} {tagButton}
+          {tags} {tagButton} {removeTags}
           <br />
           <br />
           <div id="reportDiv" onClick={this.reportImage}>
