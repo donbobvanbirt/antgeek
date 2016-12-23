@@ -217,6 +217,7 @@ class ImageDetail extends Component {
         }
 
         if (userId === this.props.user.uid) {
+          const { tags, genus, species, commonName } = imageObj;
           editButtons = (
             <div>
               <DeleteImage deleteImage={this.deleteImage} />
@@ -227,20 +228,23 @@ class ImageDetail extends Component {
               url={url}
               description={description}
               submit={this.editImage}
-              tags={imageObj.tags}
+              tags={tags}
             />
           );
-          removeTags = <RemoveTags url={url} submit={this.deleteTag} tags={imageObj.tags} />;
-          removeIds = (
-            <RemoveIds
-              url={url}
-              submit={this.deleteId}
-              tags={imageObj.tags}
-              genus={imageObj.genus}
-              species={imageObj.species}
-              commonName={imageObj.commonName}
-            />
-          )
+          if (tags.length) {
+            removeTags = <RemoveTags url={url} submit={this.deleteTag} tags={tags} />;
+          }
+          if (genus || species || commonName) {
+            removeIds = (
+              <RemoveIds
+                url={url}
+                submit={this.deleteId}
+                genus={genus}
+                species={species}
+                commonName={commonName}
+              />
+            );
+          }
         }
       }
 
@@ -292,7 +296,7 @@ class ImageDetail extends Component {
           {tags} {tagButton} {removeTags}
           <br />
           <br />
-          <div id="reportDiv" onClick={this.reportImage}>
+          <div className="pointer" id="reportDiv" onClick={this.reportImage}>
             <Icon name="flag" /> Report image
           </div>
           <Comment.Group>
