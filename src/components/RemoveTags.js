@@ -39,7 +39,8 @@ export default class RemoveTags extends Component {
 
     return (
       <div className="inline">
-        <Button size="mini" color="red" onClick={this.openModel}>Remove Tags</Button>
+        {/* <Button size="mini" color="red" onClick={this.openModel}>Remove Tags</Button> */}
+        <span className="pointer" onClick={this.openModel}><i><Icon name="remove" />Remove Tags</i></span>
         <Modal open={open} onClose={this.closeModel}>
           <Header content="Remove Tags" />
           <Modal.Content image>

@@ -24,7 +24,8 @@ export default class RemoveIds extends Component {
 
     return (
       <div className="inline">
-        <Button size="mini" color="red" onClick={this.openModel}>Remove IDs</Button>
+        {/* <Button size="mini" color="red" onClick={this.openModel}>Remove IDs</Button> */}
+        <span className="pointer" onClick={this.openModel}><i><Icon name="remove" />Remove IDs</i></span>
         <Modal open={open} onClose={this.closeModel}>
           <Header content="Remove IDs" />
           <Modal.Content image>

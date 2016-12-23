@@ -20,6 +20,10 @@
   cursor: pointer;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .inline {
   display: inline-block;
 }

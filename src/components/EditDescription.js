@@ -38,7 +38,8 @@ export default class EditImage extends Component {
 
     return (
       <div className="inline">
-        <Button size="mini" color="black" onClick={this.openModel}><Icon name="edit" /> Edit Description</Button>
+        {/* <Button size="mini" color="black" onClick={this.openModel}><Icon name="edit" /> Edit Description</Button> */}
+        <span className="pointer" onClick={this.openModel}><i><Icon name="edit" />Edit Description</i></span>
         <Modal open={open} onClose={this.closeModel}>
           <Header content="Edit Description" />
           <Modal.Content image>
