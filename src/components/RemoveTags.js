@@ -60,7 +60,9 @@ export default class RemoveTags extends Component {
               return (
                 <Table.Row key={i}>
                   <Table.Cell singleLine>{tag}</Table.Cell>
-                  <Table.Cell singleLine><Button size="mini" color="red"><Icon name="remove" /></Button></Table.Cell>
+                  <Table.Cell singleLine>
+                    <Button icon="remove" color="red" onClick={this.openModel} />
+                  </Table.Cell>
                 </Table.Row>
               );
             }

@@ -4,26 +4,17 @@ import { Button, Modal, Header, Icon, Form, Image, Table } from 'semantic-ui-rea
 export default class EditImage extends Component {
   state = {
     open: false,
-    genus: '',
-    species: '',
-    commonName: '',
     description: '',
   }
 
   submitChanges = () => {
     const { description, genus, species, commonName } = this.state;
     const editObj = {
-      genus: genus || this.props.genus,
-      species: species || this.props.species,
-      commonName: commonName || this.props.commonName,
       description: description || this.props.description,
     };
     this.props.submit(editObj);
     this.setState({
       open: false,
-      genus: '',
-      species: '',
-      commonName: '',
       description: '',
     });
   }
@@ -44,30 +35,6 @@ export default class EditImage extends Component {
   render() {
     const { url, genus, species, commonName, description, tags } = this.props;
     const { open } = this.state;
-
-    // const tagList = (
-    //   <Table basic="very" celled collapsing>
-    //     <Table.Header>
-    //       <Table.Row>
-    //         <Table.HeaderCell>Remove Tags:</Table.HeaderCell>
-    //         {/* <Table.HeaderCell></Table.HeaderCell> */}
-    //       </Table.Row>
-    //     </Table.Header>
-    //     <Table.Body>
-    //       {tags.map((tag, i) => {
-    //         if (tag) {
-    //           return (
-    //             <Table.Row key={i}>
-    //               <Table.Cell singleLine>{tag}</Table.Cell>
-    //               <Table.Cell singleLine><Button size="mini" color="red"><Icon name="remove" /></Button></Table.Cell>
-    //             </Table.Row>
-    //           );
-    //         }
-    //       })}
-    //     </Table.Body>
-    //   </Table>
-    // );
-
 
     return (
       <div className="inline">

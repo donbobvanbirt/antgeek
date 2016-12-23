@@ -17,7 +17,8 @@ export default class DeleteImage extends Component {
     const { open } = this.state;
     return (
       <div className="inline">
-        <Button size="mini" color="red" onClick={this.openModel}><Icon name="remove" /></Button>
+        <Button color="red" size="mini" onClick={this.openModel}><Icon name="remove" />Delete Image</Button>
+        {/* <Button circular icon="remove" color="red" onClick={this.openModel} /> */}
         <Modal basic open={open} onClose={this.closeModel}>
           <Header icon="warning" content="Delete this image?" />
           <Modal.Content>
