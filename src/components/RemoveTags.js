@@ -6,29 +6,6 @@ export default class RemoveTags extends Component {
     open: false,
   }
 
-  // submitChanges = () => {
-  //   const { description, genus, species, commonName } = this.state;
-  //   const editObj = {
-  //     genus: genus || this.props.genus,
-  //     species: species || this.props.species,
-  //     commonName: commonName || this.props.commonName,
-  //     description: description || this.props.description,
-  //   };
-  //   this.props.submit(editObj);
-  //   this.setState({
-  //     open: false,
-  //     genus: '',
-  //     species: '',
-  //     commonName: '',
-  //     description: '',
-  //   });
-  // }
-
-  // submitTag = (tag) => {
-  //   const tagObj = { tag };
-  //   this.props.submit(tagObj);
-  // }
-
   closeModel = () => {
     this.setState({ open: false });
   }
@@ -37,25 +14,9 @@ export default class RemoveTags extends Component {
     this.setState({ open: true });
   }
 
-  // _onType = (e) => {
-  //   const { value, name } = e.target;
-  //   this.setState({ [name]: value });
-  // }
-
   render() {
     const { tags, url, submit } = this.props;
     const { open } = this.state;
-
-    // const tagList = tags.map((tag, i) => {
-    //   if (tag) {
-    //     return (
-    //       <Table.Row key={i}>
-    //         <Table.Cell singleLine>{tag}</Table.Cell>
-    //         <Table.Cell singleLine><Button size="mini" color="red"><Icon name="remove" /></Button></Table.Cell>
-    //       </Table.Row>
-    //     );
-    //   }
-    // });
 
     const tagList = (
       <Table basic="very" celled collapsing>

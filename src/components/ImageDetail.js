@@ -9,6 +9,7 @@ import IdLabel from './IdLabel';
 import DeleteImage from './DeleteImage';
 import EditDescription from './EditDescription';
 import RemoveTags from './RemoveTags';
+import RemoveIds from './RemoveIds';
 
 import {
   getCurrentImage,
@@ -71,6 +72,12 @@ class ImageDetail extends Component {
 
   deleteTag = (tag) => {
     this.props.deleteTags(this.props.params.id, { tag });
+  }
+
+  deleteId = (id) => {
+    // this.props.deleteTags(this.props.params.id, { tag });
+    // console.log('id:', id);
+    this.props.updateImage(this.props.params.id, { [id]: '' });
   }
 
   submitNewId = (newVal) => {
@@ -136,6 +143,7 @@ class ImageDetail extends Component {
     let editButtons = '';
     let editDescription = '';
     let removeTags = '';
+    let removeIds = '';
 
     if (this.props.currentImage) {
       // console.log('this.props.currentImage:', this.props.currentImage[0]);
@@ -223,6 +231,16 @@ class ImageDetail extends Component {
             />
           );
           removeTags = <RemoveTags url={url} submit={this.deleteTag} tags={imageObj.tags} />;
+          removeIds = (
+            <RemoveIds
+              url={url}
+              submit={this.deleteId}
+              tags={imageObj.tags}
+              genus={imageObj.genus}
+              species={imageObj.species}
+              commonName={imageObj.commonName}
+            />
+          )
         }
       }
 
@@ -268,6 +286,7 @@ class ImageDetail extends Component {
             <List.Item><b>Species:</b> {species}</List.Item>
             <List.Item><b>Common Name:</b> {commonName}</List.Item>
           </List>
+          {removeIds}
 
           <Header as="h3">Tags:</Header>
           {tags} {tagButton} {removeTags}
