@@ -48,10 +48,7 @@ router.post('/id/:imageId/', authMiddleware, (req, res) => {
     { $set: { [id]: value }, $push: { tags: value } },
     { new: true }
   )
-  .then(updatedImage => {
-    console.log('updatedImage:', updatedImage);
-    res.send(updatedImage);
-  })
+  .then(updatedImage => res.send(updatedImage))
   .catch(err => res.status(400).send(err));
 });
 

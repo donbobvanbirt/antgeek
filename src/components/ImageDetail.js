@@ -8,6 +8,7 @@ import lodash from 'lodash';
 import IdLabel from './IdLabel';
 // import EditImage from './EditImage';
 import DeleteImage from './DeleteImage';
+import EditImage from './EditImage';
 
 import {
   getCurrentImage,
@@ -67,7 +68,6 @@ class ImageDetail extends Component {
   }
 
   submitNewId = (newVal) => {
-    console.log('newVal', newVal);
     this.props.addId(this.props.params.id, newVal);
   }
 
@@ -88,6 +88,10 @@ class ImageDetail extends Component {
   deleteImage = () => {
     this.props.removeImage(this.props.params.id);
     browserHistory.push('/');
+  }
+
+  editImage = (editImageObj) => {
+    console.log('editImageObj:', editImageObj);
   }
 
   internalLink = (path) => {
@@ -196,7 +200,19 @@ class ImageDetail extends Component {
         }
 
         if (userId === this.props.user.uid) {
-          editButtons = <DeleteImage deleteImage={this.deleteImage} />;
+          editButtons = (
+            <div>
+              <DeleteImage deleteImage={this.deleteImage} />
+              <EditImage
+                url={url}
+                genus={imageObj.genus}
+                species={imageObj.species}
+                commonName={imageObj.commonName}
+                description={description}
+                submit={this.editImage}
+              />
+            </div>
+          );
         }
       }
 
