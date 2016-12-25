@@ -10,6 +10,7 @@ import DeleteImage from './DeleteImage';
 import EditDescription from './EditDescription';
 import RemoveTags from './RemoveTags';
 import RemoveIds from './RemoveIds';
+import Report from './Report';
 
 import {
   getCurrentImage,
@@ -26,7 +27,12 @@ import {
 class ImageDetail extends Component {
   constructor() {
     super();
-    this.state = { newComment: '', newTags: '', tagModel: false };
+    this.state = {
+      newComment: '',
+      newTags: '',
+      currentModel: null,
+      reportReason: null,
+    };
   }
 
   componentWillMount() {
@@ -40,12 +46,16 @@ class ImageDetail extends Component {
     });
   }
 
-  openTagModel = () => {
-    this.setState({ tagModel: true });
-  }
+  // openTagModel = () => {
+  //   this.setState({ currentModel: 'tagModel' });
+  // }
+  //
+  // closeTagModel = () => {
+  //   this.setState({ currentModel: null });
+  // }
 
-  closeTagModel = () => {
-    this.setState({ tagModel: false });
+  setCurrentModel = (model) => {
+    this.setState({ currentModel: model });
   }
 
   submitComment = (e) => {
@@ -113,12 +123,31 @@ class ImageDetail extends Component {
     // console.log('path:', path);
   }
 
-  reportImage = () => {
-    console.log('report');
+  _onType = (e) => {
+    const { value, name } = e.target;
+    this.setState({ [name]: value });
+  }
+
+  _onSelect = (e, { value }) => this.setState({ reportReason: value })
+
+  reportImage = (e) => {
+    e.preventDefault()
+    const { reportComments, reportReason } = this.state;
+    if (reportComments && reportReason) {
+      console.log('reportComments:', reportComments);
+      console.log('reportReason:', reportReason);
+      this.setState({
+        currentModel: null,
+        reportComments: '',
+        reportReason: null,
+      });
+    } else {
+      alert('Please select reason and provide detail');
+    }
   }
 
   render() {
-    const { newComment, tagModel, newTags } = this.state;
+    const { newComment, currentModel, newTags } = this.state;
     let content = (<Loader active inline="centered" />);
     let id;
     let description;
@@ -198,7 +227,7 @@ class ImageDetail extends Component {
         );
 
         tagButton = (
-          <Label color="black" as="a" onClick={this.openTagModel}>Add Tags</Label>
+          <Label color="black" as="a" onClick={() => this.setCurrentModel('tagModel')}>Add Tags</Label>
         );
 
         genus = <IdLabel content="Genus" id="genus" url={url} submitAction={this.submitNewId} />;
@@ -296,9 +325,18 @@ class ImageDetail extends Component {
           {tags} {tagButton} {removeTags}
           <br />
           <br />
-          <div className="pointer" id="reportDiv" onClick={this.reportImage}>
+          {/* <div className="pointer" id="reportDiv" onClick={this.reportImage}>
             <Icon name="flag" /> Report image
-          </div>
+          </div> */}
+          <Report
+            url={url}
+            submit={this.reportImage}
+            _onType={this._onType}
+            _onSelect={this._onSelect}
+            value={this.state.reportReason}
+            setCurrentModel={this.setCurrentModel}
+            open={currentModel === 'reportModel'}
+          />
           <Comment.Group>
             <Header as="h3">Comments:</Header>
             {comments}
@@ -309,7 +347,7 @@ class ImageDetail extends Component {
           {editButtons}
           {/* <DeleteImage /> */}
 
-          <Modal open={tagModel} onClose={this.closeTagModel}>
+          <Modal open={currentModel === 'tagModel'} onClose={() => this.setCurrentModel(null)}>
             <Modal.Header>Add Tags</Modal.Header>
             <Modal.Content image>
               <Image wrapped size="medium" src={url} />

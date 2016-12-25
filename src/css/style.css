@@ -24,6 +24,10 @@
   cursor: pointer;
 }
 
+.pointer:hover {
+  color: #1e70bf;
+}
+
 .inline {
   display: inline-block;
 }
