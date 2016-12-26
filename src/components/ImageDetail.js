@@ -131,18 +131,23 @@ class ImageDetail extends Component {
   _onSelect = (e, { value }) => this.setState({ reportReason: value })
 
   reportImage = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const { reportComments, reportReason } = this.state;
     if (reportComments && reportReason) {
-      console.log('reportComments:', reportComments);
-      console.log('reportReason:', reportReason);
+      // console.log('reportComments:', reportComments);
+      // console.log('reportReason:', reportReason);
+      const reportObj = {
+        image: this.props.params.id,
+        reson: reportReason,
+        comment: reportComments,
+      };
       this.setState({
         currentModel: null,
         reportComments: '',
         reportReason: null,
       });
     } else {
-      alert('Please select reason and provide detail');
+      alert('Please select a reason and provide details');
     }
   }
 
