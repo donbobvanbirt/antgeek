@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import { Button, Modal, Header, Icon, Form, Image, Radio } from 'semantic-ui-react';
 
 export default class Report extends Component {
-  state = {
-    open: false,
-  }
-
-  closeModel = () => {
-    this.setState({ open: false });
-  }
-
-  openModel = () => {
-    this.setState({ open: true });
-  }
+  // state = {
+  //   open: false,
+  // }
+  //
+  // closeModel = () => {
+  //   this.setState({ open: false });
+  // }
+  //
+  // openModel = () => {
+  //   this.setState({ open: true });
+  // }
   //
   // _onType = (e) => {
   //   const { value, name } = e.target;

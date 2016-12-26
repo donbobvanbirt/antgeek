@@ -189,6 +189,23 @@ export function addId(imageId, newId) {
   };
 }
 
+export function reportImage(reportObj) {
+  return (dispatch) => {
+    firebaseAuth.currentUser.getToken()
+      .then((token) => {
+        return axios.post('/api/reports/', reportObj, {
+          headers: {
+            'x-auth-token': token,
+          },
+        });
+      })
+      .then((res) => {
+        dispatch(reportedImage(res.data));
+      })
+      .catch(console.error);
+  };
+}
+
 export function getSearchResults(query) {
   return (dispatch) => {
     axios.get(`/api/images/search/${query}`)
@@ -325,6 +342,13 @@ export function gotLikedImages(data) {
 export function gotUserInfo(data) {
   return {
     type: 'GOT_USER_INFO',
+    payload: data,
+  };
+}
+
+export function reportedImage(data) {
+  return {
+    type: 'REPORTED_IMAGE',
     payload: data,
   };
 }

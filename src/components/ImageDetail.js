@@ -22,6 +22,7 @@ import {
   addId,
   removeImage,
   updateImage,
+  reportImage,
  } from '../actions/PostActions';
 
 class ImageDetail extends Component {
@@ -138,16 +139,18 @@ class ImageDetail extends Component {
       // console.log('reportReason:', reportReason);
       const reportObj = {
         image: this.props.params.id,
-        reson: reportReason,
+        reason: reportReason,
         comment: reportComments,
       };
+      this.props.reportImage(reportObj);
       this.setState({
         currentModel: null,
         reportComments: '',
         reportReason: null,
       });
+      alert('Thank you, this image has been reported.');
     } else {
-      alert('Please select a reason and provide details');
+      alert('Please select a reason and provide details.');
     }
   }
 
@@ -172,6 +175,7 @@ class ImageDetail extends Component {
     let commentForm = <div className="login" onClick={() => this.internalLink('/signin')}>Please log in to leave a comment</div>;
     let tagButton = '';
     let likeButton = <Icon size="big" link name="empty heart" onClick={() => this.internalLink('/signin')} />;
+    let reportLink = <span className="pointer" onClick={() => this.internalLink('/signin')}><i><Icon name="flag" /> Report image</i></span>
     let likeCount = '';
     let likes;
     let editButtons = '';
@@ -238,6 +242,18 @@ class ImageDetail extends Component {
         genus = <IdLabel content="Genus" id="genus" url={url} submitAction={this.submitNewId} />;
         species = <IdLabel content="Species" id="species" url={url} submitAction={this.submitNewId} />;
         commonName = <IdLabel content="Common Name" id="commonName" url={url} submitAction={this.submitNewId} />;
+
+        reportLink = (
+          <Report
+            url={url}
+            submit={this.reportImage}
+            _onType={this._onType}
+            _onSelect={this._onSelect}
+            value={this.state.reportReason}
+            setCurrentModel={this.setCurrentModel}
+            open={currentModel === 'reportModel'}
+          />
+      );
 
         const alreadyLiked = _.some(likes, like => (like === this.props.user.uid));
         if (alreadyLiked) {
@@ -333,7 +349,7 @@ class ImageDetail extends Component {
           {/* <div className="pointer" id="reportDiv" onClick={this.reportImage}>
             <Icon name="flag" /> Report image
           </div> */}
-          <Report
+          {/* <Report
             url={url}
             submit={this.reportImage}
             _onType={this._onType}
@@ -341,7 +357,8 @@ class ImageDetail extends Component {
             value={this.state.reportReason}
             setCurrentModel={this.setCurrentModel}
             open={currentModel === 'reportModel'}
-          />
+          /> */}
+          {reportLink}
           <Comment.Group>
             <Header as="h3">Comments:</Header>
             {comments}
@@ -410,6 +427,9 @@ const mapDispatchToProps = dispatch => ({
   },
   updateImage(id, obj) {
     dispatch(updateImage(id, obj));
+  },
+  reportImage(obj) {
+    dispatch(reportImage(obj));
   },
 });
 
