@@ -12,6 +12,11 @@ export function signInWithFacebook() {
   return authenticate(provider);
 }
 
+export function signInWithTwitter() {
+  const provider = new firebase.auth.TwitterAuthProvider();
+  return authenticate(provider);
+}
+
 function authenticate(provider) {
   return (dispatch) => {
     firebaseAuth.signInWithPopup(provider)

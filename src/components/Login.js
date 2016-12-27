@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router';
 import { Header, Icon, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-import { signInWithGoogle, signInWithFacebook } from '../actions/auth';
+import { signInWithGoogle, signInWithFacebook, signInWithTwitter } from '../actions/auth';
 
 class Login extends Component {
   constructor() {
@@ -30,6 +30,15 @@ class Login extends Component {
     browserHistory.push('/');
   }
 
+  _twitterSignIn = () => {
+    const { twitterSignIn, hideModal } = this.props;
+    twitterSignIn();
+    if (hideModal) {
+      hideModal();
+    }
+    browserHistory.push('/');
+  }
+
   render() {
     return (
       <div>
@@ -41,7 +50,7 @@ class Login extends Component {
         <br />
         <Button onClick={this._facebookSignIn} fluid color="facebook"><Icon name="facebook" size="large" /> Sign In with Facebook</Button>
         <br />
-        <Button onClick={this._googleSignIn} fluid color="twitter"><Icon name="twitter" size="large" /> Sign In with Twitter</Button>
+        <Button onClick={this._twitterSignIn} fluid color="twitter"><Icon name="twitter" size="large" /> Sign In with Twitter</Button>
       </div>
     );
   }
@@ -55,6 +64,9 @@ const mapDispatchToProps = dispatch => ({
   },
   facebookSignIn() {
     dispatch(signInWithFacebook());
+  },
+  twitterSignIn() {
+    dispatch(signInWithTwitter());
   },
 });
 
