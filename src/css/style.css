@@ -31,3 +31,19 @@
 .inline {
   display: inline-block;
 }
+
+.socialLink {
+  display: inline-block;
+  margin-right: 30px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.socialLinkContainer {
+  float: right;
+}
+
+/*.Demo__some-network__share-count {
+  margin-top: 3px;
+  font-size: 12px;
+}*/

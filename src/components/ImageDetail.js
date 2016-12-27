@@ -1,9 +1,26 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { Button, Form, Image, Container, Loader, Header, Label, Comment, Icon, Modal, List } from 'semantic-ui-react';
 import moment from 'moment';
-import lodash from 'lodash';
+import {
+  Button,
+  Form,
+  Image,
+  Container,
+  Loader,
+  Header,
+  Label,
+  Comment,
+  Icon,
+  Modal,
+  List,
+} from 'semantic-ui-react';
+// import lodash from 'lodash';
+// import {
+//   ShareButtons,
+//   ShareCounts,
+//   generateShareIcon
+// } from 'react-share';
 
 import IdLabel from './IdLabel';
 import DeleteImage from './DeleteImage';
@@ -11,6 +28,7 @@ import EditDescription from './EditDescription';
 import RemoveTags from './RemoveTags';
 import RemoveIds from './RemoveIds';
 import Report from './Report';
+import ShareButton from './ShareButton';
 
 import {
   getCurrentImage,
@@ -156,12 +174,10 @@ class ImageDetail extends Component {
 
   render() {
     const { newComment, currentModel, newTags } = this.state;
+
     let content = (<Loader active inline="centered" />);
     let id;
     let description;
-    // let genus = <IdLabel clickAction={() => this.internalLink('/signin')} content="Add Genus" />;
-    // let species = <IdLabel clickAction={() => this.internalLink('/signin')} content="Add Species" />;
-    // let commonName = <IdLabel clickAction={() => this.internalLink('/signin')} content="Add Common Name" />;
     let genus = <Label size="small" onClick={() => this.internalLink('/signin')} as="a">Add Genus</Label>;
     let species = <Label size="small" onClick={() => this.internalLink('/signin')} as="a">Add Species</Label>;
     let commonName = <Label size="small" onClick={() => this.internalLink('/signin')} as="a">Add Common Name</Label>;
@@ -319,6 +335,7 @@ class ImageDetail extends Component {
           <Image src={url} fluid />
           <br />
           {likeButton} {likeCount}
+          <ShareButton title={`${imageObj.genus} ${imageObj.species}`} shareUrl={`http://antgeek.co${this.props.location.pathname}`} />
           <Comment.Group>
             <Comment>
               <Comment.Avatar src={avatar} />
@@ -346,18 +363,6 @@ class ImageDetail extends Component {
           {tags} {tagButton} {removeTags}
           <br />
           <br />
-          {/* <div className="pointer" id="reportDiv" onClick={this.reportImage}>
-            <Icon name="flag" /> Report image
-          </div> */}
-          {/* <Report
-            url={url}
-            submit={this.reportImage}
-            _onType={this._onType}
-            _onSelect={this._onSelect}
-            value={this.state.reportReason}
-            setCurrentModel={this.setCurrentModel}
-            open={currentModel === 'reportModel'}
-          /> */}
           {reportLink}
           <Comment.Group>
             <Header as="h3">Comments:</Header>
@@ -367,7 +372,6 @@ class ImageDetail extends Component {
           {commentForm}
           <br />
           {editButtons}
-          {/* <DeleteImage /> */}
 
           <Modal open={currentModel === 'tagModel'} onClose={() => this.setCurrentModel(null)}>
             <Modal.Header>Add Tags</Modal.Header>
