@@ -7,6 +7,11 @@ export function signInWithGoogle() {
   return authenticate(provider);
 }
 
+export function signInWithFacebook() {
+  const provider = new firebase.auth.FacebookAuthProvider();
+  return authenticate(provider);
+}
+
 function authenticate(provider) {
   return (dispatch) => {
     firebaseAuth.signInWithPopup(provider)
