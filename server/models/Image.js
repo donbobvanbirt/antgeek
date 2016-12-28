@@ -25,7 +25,7 @@ const imageSchema = new mongoose.Schema({
     name: { type: String, required: true },
     picture: { type: String, required: true },
     user_id: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String },
   },
   comments: [{
     body: { type: String, required: true },
