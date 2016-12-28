@@ -15,12 +15,6 @@ import {
   Modal,
   List,
 } from 'semantic-ui-react';
-// import lodash from 'lodash';
-// import {
-//   ShareButtons,
-//   ShareCounts,
-//   generateShareIcon
-// } from 'react-share';
 
 import IdLabel from './IdLabel';
 import DeleteImage from './DeleteImage';
@@ -91,12 +85,13 @@ class ImageDetail extends Component {
 
   submitNewTags = (e) => {
     e.preventDefault();
-    const tagArr = this.state.newTags.split(',').map(tag => (tag.trim().toLowerCase()));
+    const tagArr = this.state.newTags.split(',').map(tag => (tag.trim().toLowerCase())).filter(t => t !== '');
+    // console.log('tagArr:', tagArr);
     const tagObj = {
       newTags: tagArr,
     };
     this.props.addTags(this.props.params.id, tagObj);
-    this.setState({ newTags: '', tagModel: false });
+    this.setState({ newTags: '', currentModel: null });
   }
 
   deleteTag = (tag) => {
@@ -135,6 +130,7 @@ class ImageDetail extends Component {
   editImage = (editImageObj) => {
     // console.log('editImageObj:', editImageObj);
     this.props.updateImage(this.props.params.id, editImageObj);
+    this.setState({ currentModel: null });
   }
 
   internalLink = (path) => {
@@ -200,7 +196,7 @@ class ImageDetail extends Component {
     let removeIds = '';
 
     if (this.props.currentImage) {
-      // console.log('this.props.currentImage:', this.props.currentImage[0]);
+      // console.log('this.props.currentImage.tags:', this.props.currentImage[0].tags);
       const imageObj = this.props.currentImage[0];
       id = imageObj._id;
       description = imageObj.description;
@@ -214,14 +210,10 @@ class ImageDetail extends Component {
       likes = imageObj.likes.map(like => (Object.values(like).join('')));
       // console.log('likes', likes);
 
-      tags = imageObj.tags.map((tag, i) => {
-        if (tag) {
-          return (
-            <Label as="a" key={i} onClick={() => this.clickTag(tag)}>{tag}</Label>
-          );
-        }
-        return '';
-      });
+      tags = imageObj.tags.map((tag, i) => (
+        <Label as="a" key={i} onClick={() => this.clickTag(tag)}>{tag}</Label>
+      ));
+
       if (imageObj.comments.length) {
         comments = imageObj.comments.map((comment) => {
           const { body, _id, user } = comment;
@@ -286,7 +278,11 @@ class ImageDetail extends Component {
           const { tags, genus, species, commonName } = imageObj;
           editButtons = (
             <div>
-              <DeleteImage deleteImage={this.deleteImage} />
+              <DeleteImage
+                deleteImage={this.deleteImage}
+                setCurrentModel={this.setCurrentModel}
+                open={currentModel === 'deleteImageModal'}
+              />
             </div>
           );
           editDescription = (
@@ -295,10 +291,18 @@ class ImageDetail extends Component {
               description={description}
               submit={this.editImage}
               tags={tags}
+              setCurrentModel={this.setCurrentModel}
+              open={currentModel === 'editDescription'}
             />
           );
           if (tags.length) {
-            removeTags = <RemoveTags url={url} submit={this.deleteTag} tags={tags} />;
+            removeTags = <RemoveTags
+              url={url}
+              submit={this.deleteTag}
+              tags={tags}
+              setCurrentModel={this.setCurrentModel}
+              open={currentModel === 'removeTagsModel'}
+            />;
           }
           if (genus || species || commonName) {
             removeIds = (
@@ -308,6 +312,8 @@ class ImageDetail extends Component {
                 genus={genus}
                 species={species}
                 commonName={commonName}
+                setCurrentModel={this.setCurrentModel}
+                open={currentModel === 'removeIdsModel'}
               />
             );
           }

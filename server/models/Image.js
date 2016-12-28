@@ -66,15 +66,15 @@ imageSchema.statics.upload = function (fileObj, details, user) {
         email,
       };
 
-      let tagList = tags.split(',').map(tag => (tag.trim().toLowerCase()));
+      let tagList = tags.split(',').map(tag => (tag.trim().toLowerCase())).filter(t => t !== '');
       if (genus) {
-        tagList = tagList.concat(genus);
+        tagList = tagList.concat(genus.trim().toLowerCase());
       }
       if (species) {
-        tagList = tagList.concat(species);
+        tagList = tagList.concat(species.trim().toLowerCase());
       }
       if (commonName) {
-        tagList = tagList.concat(commonName);
+        tagList = tagList.concat(commonName.trim().toLowerCase());
       }
 
       this.create({

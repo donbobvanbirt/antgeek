@@ -34,7 +34,7 @@ export default class FileUpload extends Component {
     e.preventDefault();
     const { file, description, tags, genus, species, commonName } = this.state;
     if (!file) { return; }
-    let tagList = [];
+    // let tagList = [];
     const detailObj = {
       description: description || '',
       genus: genus || '',
@@ -42,6 +42,9 @@ export default class FileUpload extends Component {
       commonName: commonName || '',
       tags: tags || '',
     };
+    // if (tags) {
+    //   detailObj.tags = tags;
+    // }
     // console.log('detailObj:', detailObj);
     this.props.submitFile(file, detailObj);
     // this.close();

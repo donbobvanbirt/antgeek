@@ -56,7 +56,7 @@ router.post('/id/:imageId/', authMiddleware, (req, res) => {
   const { id, value } = req.body;
   Image.findOneAndUpdate(
     { _id: req.params.imageId },
-    { $set: { [id]: value }, $push: { tags: value } },
+    { $set: { [id]: value }, $push: { tags: value.trim().toLowerCase() } },
     { new: true }
   )
   .then(updatedImage => res.send(updatedImage))
